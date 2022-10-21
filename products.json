@@ -1,1 +1,20 @@
-[{"title":"Bugatti","price":3000000,"thumbnail":"https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/02-hispeed-css-1624449602.jpg","id":1},{"title":"Lamborghini","price":350000,"thumbnail":"https://www.autobild.es/sites/autobild.es/public/styles/main_element/public/dc/fotos/Lamborghini_Huracan_STO09_0.jpg?itok=RsWwF7gI","id":2},{"title":"Ferrari","price":280000,"thumbnail":"https://phantom-marca.unidadeditorial.es/0fa9e4b2433f7eada8f97d2374e54f48/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/05/16517455111875.jpg","id":3},{"title":"Ferrari","price":280000,"thumbnail":"https://phantom-marca.unidadeditorial.es/0fa9e4b2433f7eada8f97d2374e54f48/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/05/16517455111875.jpg","id":4}]
+[
+  {
+    "title": "Bugatti",
+    "price": 3000000,
+    "thumbnail": "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/02-hispeed-css-1624449602.jpg",
+    "id": 1
+  },
+  {
+    "title": "Lamborghini",
+    "price": 350000,
+    "thumbnail": "https://www.autobild.es/sites/autobild.es/public/styles/main_element/public/dc/fotos/Lamborghini_Huracan_STO09_0.jpg?itok=RsWwF7gI",
+    "id": 2
+  },
+  {
+    "title": "Ferrari",
+    "price": 280000,
+    "thumbnail": "https://phantom-marca.unidadeditorial.es/0fa9e4b2433f7eada8f97d2374e54f48/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/05/16517455111875.jpg",
+    "id": 3
+  }
+]

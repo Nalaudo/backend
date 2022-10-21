@@ -1,15 +1,20 @@
-const fs = require("fs");
+const fs = require('fs')
 
 class Contenedor {
     constructor() {
         this.filePath = "./products.json";
     };
 
+    syncGetAll = () => {
+        const archivo = fs.readFileSync(this.filePath);
+        const productos = JSON.parse(archivo);
+        return productos
+    }
     getAll = async () => {
         try {
             const archivo = await fs.promises.readFile(this.filePath);
             const productos = JSON.parse(archivo);
-            return productos;
+            return productos
         } catch (e) {
             console.log(e);
         }
@@ -27,7 +32,7 @@ class Contenedor {
                 this.filePath,
                 JSON.stringify(productos, null)
             );
-        } catch (e) {}
+        } catch (e) { }
     };
     getById = async (id) => {
         try {
@@ -73,9 +78,27 @@ class Contenedor {
 
 const contenedor = new Contenedor();
 
-contenedor.save({
-    title: 'Ferrari',
-    price: 280000,
-    thumbnail: 'https://phantom-marca.unidadeditorial.es/0fa9e4b2433f7eada8f97d2374e54f48/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/05/16517455111875.jpg',
-    id: 0, // no modificar
+// contenedor.save({
+//     title: 'Ferrari',
+//     price: 280000,
+//     thumbnail: 'https://phantom-marca.unidadeditorial.es/0fa9e4b2433f7eada8f97d2374e54f48/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/05/16517455111875.jpg',
+//     id: 0, // no modificar
+// })
+
+const express = require('express')
+const app = express()
+const port = 8080
+const productos = contenedor.syncGetAll()
+
+app.get('/productos', (req, res) => {
+    res.json(productos)
+})
+
+app.get('/productoRandom', (req, res) => {
+    var item = productos[Math.floor(Math.random() * productos.length)];
+    res.send(item)
+})
+
+app.listen(port, () => {
+    console.log(`Link: http://localhost:${port}`)
 })
