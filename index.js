@@ -1,104 +1,65 @@
-const fs = require('fs')
-
-class Contenedor {
-    constructor() {
-        this.filePath = "./products.json";
-    };
-
-    syncGetAll = () => {
-        const archivo = fs.readFileSync(this.filePath);
-        const productos = JSON.parse(archivo);
-        return productos
-    }
-    getAll = async () => {
-        try {
-            const archivo = await fs.promises.readFile(this.filePath);
-            const productos = JSON.parse(archivo);
-            return productos
-        } catch (e) {
-            console.log(e);
-        }
-    };
-    save = async (producto) => {
-        try {
-            const productos = await this.getAll();
-            const id =
-                productos.length === 0
-                    ? 1
-                    : productos[productos.length - 1].id + 1;
-            producto.id = id;
-            productos.push(producto);
-            await fs.promises.writeFile(
-                this.filePath,
-                JSON.stringify(productos, null)
-            );
-        } catch (e) { }
-    };
-    getById = async (id) => {
-        try {
-            const dataRecuperada = await this.getAll();
-            const dataNueva = dataRecuperada.filter((data) => data.id === id);
-            if (dataNueva !== id) {
-                console.log("No existe producto con ese id");
-            } else {
-                console.log(dataNueva);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    async deleteById(id) {
-        try {
-            const productos = await this.getAll();
-            const productoEncontrado = productos.find((e) => e.id == id);
-            if (!productoEncontrado) return console.log("El id no existe");
-            const productosFiltrados = productos.filter((e) => e.id != id);
-            await fs.promises.writeFile(
-                this.filePath,
-                JSON.stringify(productosFiltrados, null)
-            );
-            console.log("producto borrado");
-        } catch (e) {
-            console.log(e);
-        }
-    }
-    deleteAll = async () => {
-        try {
-            await fs.promises.writeFile(
-                this.filePath,
-                JSON.stringify([], null)
-            );
-            console.log("se borraron todos los productos");
-        } catch (e) {
-            console.log(e);
-        }
-    };
-};
-
+const express = require('express');
+const { Router } = express;
+const app = express();
+const routerProductos = Router();
+const port = process.env.PORT || 8080;
+const Contenedor = require('./contenedor');
 const contenedor = new Contenedor();
 
-// contenedor.save({
-//     title: 'Ferrari',
-//     price: 280000,
-//     thumbnail: 'https://phantom-marca.unidadeditorial.es/0fa9e4b2433f7eada8f97d2374e54f48/resize/1320/f/jpg/assets/multimedia/imagenes/2022/05/05/16517455111875.jpg',
-//     id: 0, // no modificar
-// })
-
-const express = require('express')
-const app = express()
-const port = 8080
-const productos = contenedor.syncGetAll()
-
-app.get('/productos', (req, res) => {
-    res.json(productos)
-})
-
-app.get('/productoRandom', (req, res) => {
-    var item = productos[Math.floor(Math.random() * productos.length)];
-    res.send(item)
-})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.listen(port, () => {
-    console.log(`Link: http://localhost:${port}`)
-})
+    console.log(`Server: http://localhost:${port}`);
+});
+
+app.use('/api/productos', routerProductos);
+app.use('/public', express.static(__dirname + '/public'));
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.post('/formulario', (req, res) => {
+    const { body } = req;
+    contenedor.save(body);
+    res.json('Formulario recibido correctamente');
+});
+
+routerProductos.get('/', async (req, res) => {
+    const todos = await contenedor.getAll();
+    res.json(todos);
+});
+
+routerProductos.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    const productoEncontrado = await contenedor.getById(id);
+    if (productoEncontrado){
+        res.json(productoEncontrado);
+    }else {
+        res.json({ error: 'producto no encontrado' });
+    }
+});
+
+routerProductos.post('/', async (req, res) => {
+    const { body } = req;
+    await contenedor.save(body);
+    res.json({ success: 'producto agregado correctamente'});
+});
+
+routerProductos.put('/:id', async (req, res) => {
+   try{ 
+        const id = req.params.id;
+        const { title, price, thumbnail }= req.body;
+        await contenedor.updateById(id, title, price, thumbnail);
+        res.json('producto actualizado');
+    }catch (error){
+        res.json({ error: 'producto no encontrado' });
+    }
+});
+
+routerProductos.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    await contenedor.deleteById(id);
+    res.json('producto borrado');
+});
