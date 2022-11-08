@@ -1,0 +1,33 @@
+doctype html
+html(lang="es")
+  head
+    meta(charset="UTF-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Productos
+  body(style='margin: 0px;') 
+    nav(style='background-color: black;')
+      div(style='color: white; text-align: center; padding: 5px;')
+        a(style='color: white; margin: 5px;' href='/') Inicio
+        a(style='color: white; margin: 5px;' href='/productos') Productos
+        a(style='color: white; margin: 5px;' href='/form') Agregar Producto
+    main
+      h1 Listados de productos 
+      if productos
+        for producto in productos
+          div(style='display: flex; justify-content: left;')
+            div(style='\
+            display: flex;\
+            flex-direction: column;\
+            border: 3px solid black;\
+            margin: 0px 0px 10px 10px;\
+            ')
+            div(style='display: flex; flex-direction: row')
+              div(style='margin: 5px;')
+                p(style='font-weight: bold; font-size: 20px;') #{producto.title}
+                p(style='font-weight: bold; font-size: 20px;') Precio: #{producto.price}
+              img(style='max-height: 200px; margin: 10px;' src= `${producto.thumbnail}`)
+      else
+        h1 No hay productos
+    footer(style='background-color: black; padding: 5px;')
+      p(style='color: white; text-align: center;  margin: 0px;') Sitio desarrollado por Nicolás Balaudo

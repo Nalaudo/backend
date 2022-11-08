@@ -1,0 +1,29 @@
+{{> navbar}}
+<main style='background-color: beige;'>
+  <h1 style='padding: 10px; margin: 0px;'>Listado de productos</h1>
+  {{#if productos}}
+    {{#each productos}}
+      <div style='display: flex; justify-content: left;'>
+        <div
+          style='
+            display: flex;
+            flex-direction: column;
+            border: 3px solid black;
+            margin: 0px 0px 10px 10px;
+          '
+        >
+          <div style='display: flex; flex-direction: row'>
+            <div style='margin: 5px;'>
+              <p style='font-weight: bold; font-size: 20px;'>{{this.title}}</p>
+              <p style='font-weight: bold; font-size: 20px;'>Precio: {{this.price}}</p>
+            </div>
+            <img style='max-height: 200px; margin: 10px;' src='{{this.thumbnail}}' />
+          </div>
+        </div>
+      </div>
+    {{/each}}
+    {{else}}
+    <h1>No hay productos</h1>
+  {{/if}}
+</main>
+{{> footer}}

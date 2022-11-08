@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body style="margin: 0px">
+    <%- include('../partials/navbar'); %>
+    <main style="background-color: beige">
+      <h1 style="padding: 10px; margin: 0px">Listado de productos</h1>
+      <% if(productos?.length > 0){ %> <% productos.forEach((item)=>{ %>
+      <div style="display: flex; justify-content: left">
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            border: 3px solid black;
+            margin: 0px 0px 10px 10px;
+          "
+        >
+          <div style="display: flex; flex-direction: row">
+            <div style="margin: 5px">
+              <p style="font-weight: bold; font-size: 20px"><%=item.title%></p>
+              <p style="font-weight: bold; font-size: 20px">
+                Precio: <%=item.price%>
+              </p>
+            </div>
+            <img
+              style="max-height: 200px; margin: 10px"
+              src="<%=item.thumbnail%>"
+            />
+          </div>
+        </div>
+      </div>
+      <% }) %> <% } else { %>
+      <h1>No hay productos</h1>
+      <% } %>
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>
