@@ -1,4 +1,0 @@
-Prefiero EJS ya que conseguí formateadores para sus archivos, además, es como usar javascript en el html.
-El que menos me gustó es pug, es horrible.
-Handlebars se me hizo muy familiar ya que yo vengo de python con Django y el sistema de las llaves es muy similar, pero no idéntico y por eso no lo elijo.
-En conclusión, voy a usar ejs a partir de ahora.

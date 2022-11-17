@@ -3,6 +3,29 @@ const fs = require("fs");
 class Contenedor {
     constructor() {
         this.filePath = "./productos.json";
+        this.fileChat = "./chat.json";
+    };
+
+    syncGetChat = () => {
+        const archivo = fs.readFileSync(this.fileChat);
+        const chat = JSON.parse(archivo);
+        return chat
+    }
+
+    syncGetAll = () => {
+        const archivo = fs.readFileSync(this.filePath);
+        const productos = JSON.parse(archivo);
+        return productos
+    }
+
+    getAllChat = async () => {
+        try {
+            const archivo = await fs.promises.readFile(this.fileChat);
+            const chat = JSON.parse(archivo);
+            return (chat);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     getAll = async () => {
@@ -13,6 +36,22 @@ class Contenedor {
         } catch (e) {
             console.log(e);
         }
+    };
+
+    saveChat = async (msg) => {
+        try {
+            const chat = await this.getAllChat();
+            const id =
+                chat.length === 0
+                    ? 1
+                    : chat[chat.length - 1].id + 1;
+            msg.id = id;
+            chat.push(msg);
+            fs.promises.writeFile(
+                this.fileChat,
+                JSON.stringify(chat, null)
+            );
+        } catch (e) { }
     };
 
     save = async (producto) => {
@@ -28,7 +67,7 @@ class Contenedor {
                 this.filePath,
                 JSON.stringify(productos, null)
             );
-        } catch (e) {}
+        } catch (e) { }
     };
 
     getById = async (id) => {
@@ -38,7 +77,7 @@ class Contenedor {
             return dataNueva;
         } catch (e) {
             console.log(e);
-        }  
+        }
     };
 
     async deleteById(id) {
@@ -55,8 +94,8 @@ class Contenedor {
         } catch (e) {
             console.log(e);
         }
-    }; 
-    
+    };
+
     deleteAll = async () => {
         try {
             await fs.promises.writeFile(
@@ -90,7 +129,7 @@ class Contenedor {
             console.log(error);
         }
     };
-    
+
 };
 
 const contenedor = new Contenedor();

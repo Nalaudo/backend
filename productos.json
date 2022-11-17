@@ -16,5 +16,17 @@
     "price": "10",
     "thumbnail": "https://cdn1.iconfinder.com/data/icons/office-171/32/office-20-256.png",
     "id": 3
+  },
+  {
+    "title": "Reloj",
+    "price": "15",
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/office-171/32/office-21-256.png",
+    "id": 4
+  },
+  {
+    "title": "Libro",
+    "price": "5",
+    "thumbnail": "https://cdn1.iconfinder.com/data/icons/office-171/32/office-19-256.png",
+    "id": 5
   }
 ]
