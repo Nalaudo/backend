@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><% if (error) { %> Producto no encontrado <% } else {producto.title} %></title>
+  <link rel="stylesheet" href="../../public/index.css">
+</head>
+
+<body style="margin: 0px">
+  <%- include('../partials/navbar'); %>
+  <main style="background-color: beige">
+    <% if (error) { %>
+    <h1 style="padding: 10px; margin: 0px"><%= error.error %></h1>
+    <% } else { %>
+    <h1 style="padding: 10px; margin: 0px">Listado de productos</h1>
+    <table style="width: 45%">
+      <tr>
+        <th style="width: 10%">Título</th>
+        <th style="width: 10%">Precio</th>
+        <th style="width: 10%">Imagen</th>
+        <th style="width: 10%">Descripción</th>
+        <th style="width: 10%">Código</th>
+        <th style="width: 10%">Stock</th>
+      </tr>
+      <tr>
+        <td style="width: 10%"><%= producto.title %></td>
+        <td style="width: 10%">$<%= producto.price %></td>
+        <td style="width: 10%"><img style="max-height: 5vh" src="<%= producto.thumbnail %>" /></td>
+        <td style="width: 10%"><%= producto.description %></td>
+        <td style="width: 10%"><%= producto.code %></td>
+        <td style="width: 10%"><%= producto.stock %>U.</td>
+      </tr>
+    </table>
+    <% } %>
+  </main>
+  <%- include('../partials/footer'); %>
+</body>
+
+</html>

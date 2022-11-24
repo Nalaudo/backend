@@ -3,30 +3,13 @@ const fs = require("fs");
 class Contenedor {
     constructor() {
         this.filePath = "./productos.json";
-        this.fileChat = "./chat.json";
     };
-
-    syncGetChat = () => {
-        const archivo = fs.readFileSync(this.fileChat);
-        const chat = JSON.parse(archivo);
-        return chat
-    }
 
     syncGetAll = () => {
         const archivo = fs.readFileSync(this.filePath);
         const productos = JSON.parse(archivo);
         return productos
     }
-
-    getAllChat = async () => {
-        try {
-            const archivo = await fs.promises.readFile(this.fileChat);
-            const chat = JSON.parse(archivo);
-            return (chat);
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     getAll = async () => {
         try {
@@ -36,22 +19,6 @@ class Contenedor {
         } catch (e) {
             console.log(e);
         }
-    };
-
-    saveChat = async (msg) => {
-        try {
-            const chat = await this.getAllChat();
-            const id =
-                chat.length === 0
-                    ? 1
-                    : chat[chat.length - 1].id + 1;
-            msg.id = id;
-            chat.push(msg);
-            fs.promises.writeFile(
-                this.fileChat,
-                JSON.stringify(chat, null)
-            );
-        } catch (e) { }
     };
 
     save = async (producto) => {
@@ -74,6 +41,16 @@ class Contenedor {
         try {
             const dataRecuperada = await this.getAll();
             const dataNueva = dataRecuperada.find((data) => data.id == id);
+            return dataNueva;
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    getByTitle = async (title) => {
+        try {
+            const dataRecuperada = await this.getAll();
+            const dataNueva = dataRecuperada.find((data) => data.title == title);
             return dataNueva;
         } catch (e) {
             console.log(e);
@@ -108,7 +85,7 @@ class Contenedor {
         }
     };
 
-    updateById = async (id, title, price, thumbnail) => {
+    updateById = async (id, title, price, thumbnail, description, code, stock) => {
         try {
             const productos = await this.getAll();
             const item = productos.find((prod) => prod.id == id);
@@ -116,6 +93,9 @@ class Contenedor {
                 item.title = title;
                 item.price = price;
                 item.thumbnail = thumbnail;
+                item.description = description;
+                item.code = code;
+                item.stock = stock;
                 console.log(item);
                 await fs.promises.writeFile(
                     this.filePath,
@@ -131,9 +111,5 @@ class Contenedor {
     };
 
 };
-
-const contenedor = new Contenedor();
-
-console.log(contenedor.getAll());
 
 module.exports = Contenedor;
