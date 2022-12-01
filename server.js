@@ -1,204 +1,81 @@
 const express = require('express');
-const { Router } = express;
 const app = express();
-const routerProductos = Router();
-const routerCarrito = Router();
-const port = process.env.PORT || 8080;
-const Contenedor = require('./contenedor');
-const contenedor = new Contenedor();
-const Cart = require('./cart');
-const cart = new Cart();
+const port = 8080;
+
+const Mysql = require('./container');
+const prods = new Mysql("products");
+
+const Sqlite = require('./container');
+const msgs = new Sqlite("messages");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(__dirname + '/public'));
-app.use('/api/productos', routerProductos);
-app.use('/api/carrito', routerCarrito);
 app.set('view engine', 'ejs');
 
 const httpServer = require("http").createServer(app);
+const io = require("socket.io")(httpServer);
 
-httpServer.listen(port, () => {
+httpServer.listen(process.env.PORT || port, () => {
     console.log(`Server: http://localhost:${port}`);
 });
 
-//GENERAL
+io.on("connection", async (socket) => {
+    io.sockets.emit("arr-producto", await prods.selectTable());
+    io.sockets.emit("arr-chat", await msgs.selectTable());
 
-let productos = contenedor.syncGetAll();
+    socket.on("data-productos", async (data) => {
+        await prods.insertInTable(data)
+        io.sockets.emit("arr-producto", await prods.selectTable());
+    });
+    socket.on("data-chat", async (data) => {
+        await msgs.insertInTable(data);
+        io.sockets.emit("arr-chat", await msgs.selectTable());
+    });
+});
 
-let cartList = cart.syncGetAll()
 
-let adminStatus = true
 
 app.get('/', (req, res) => {
-    res.render('pages/inicio.ejs')
+    res.render('pages/socket.ejs');
 });
 
-app.get('/prodform', (req, res, next) => {
-    if (adminStatus == true) {
-        next()
-    } else {
-        res.json({ error: -1, descripción: `ruta '${req.originalUrl}' método '${req.method}' no autorizada` })
-    }
-},
-    (req, res) => {
-        res.render('pages/prodform.ejs')
-    }
-);
-
-app.get('/cartform', (req, res) => {
-    res.render('pages/cartform.ejs')
-});
-
-
-//PRODUCTOS
-
-routerProductos.get('/:id?', async (req, res) => {
-    const { id } = req.params;
-    if (id) {
-        const productoEncontrado = await contenedor.getById(id);
-        const error = { error: 'Error: Producto no encontrado' }
-        if (productoEncontrado) {
-            res.render('pages/prod.ejs', { producto: productoEncontrado, error: false });
-        } else {
-            res.render('pages/prod.ejs', { producto: productoEncontrado, error: error });
-        }
-    } else {
-        res.render('pages/productos.ejs', { adminStatus: adminStatus, productos: productos })
-    }
-});
-
-routerProductos.post('/', (req, res, next) => {
-    if (adminStatus == true) {
-        next()
-    } else {
-        res.json({ error: -1, descripción: `ruta '${req.originalUrl}' método '${req.method}' no autorizada` })
-    }
-},
-    async (req, res) => {
-        try {
-            let { body } = req;
-            let date = { timestamp: Date.now() }
-            body = { ...body, ...date }
-            await contenedor.save(body);
-            res.redirect('/api/productos');
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-);
-
-//desde postman
-routerProductos.put('/:id', (req, res, next) => {
-    if (adminStatus == true) {
-        next()
-    } else {
-        res.json({ error: -1, descripción: `ruta '${req.originalUrl}' método '${req.method}' no autorizada` });
-    }
-},
-    async (req, res) => {
-        try {
-            const id = req.params.id;
-            const { title, price, thumbnail, description, code, stock } = req.body;
-            await contenedor.updateById(id, title, price, thumbnail, description, code, stock);
-            res.redirect(`/api/productos/${id}`);
-        } catch (error) {
-            console.log(error)
-        }
-    }
-);
-
-//desde postman
-routerProductos.delete('/:id', (req, res, next) => {
-    if (adminStatus == true) {
-        next()
-    } else {
-        res.json({ error: -1, descripción: `ruta '${req.originalUrl}' método '${req.method}' no autorizada` });
-    }
-},
-    async (req, res) => {
-        try {
-            const { id } = req.params;
-            await contenedor.deleteById(id);
-            res.json('Producto borrado');
-        } catch (error) {
-            console.log(error)
-        }
-    }
-);
-
-
-//CARRITO
-
-routerCarrito.post('/', async (req, res) => {
+app.get('/:id', async (req, res) => {
     try {
-        let { body } = req;
-        let date = { timestamp: Date.now() }
-        let cartProd1 = await contenedor.getByTitle(body.prod1)
-        let prods = [{ ...cartProd1 }]
-        let cartEnd = { prods, ...date }
-        await cart.save(cartEnd);
-        const createdCart = cartList.length + 1
-        res.redirect(`/api/carrito/${createdCart}/productos`);
+        const { id } = req.params
+        const prod = await prods.selectFromTableById(id)
+        res.json(prod);
     } catch (error) {
-        console.log(error)
+        res.json({ error: error });
     }
 });
 
-routerCarrito.get('/:id/productos', async (req, res) => {
-    const { id } = req.params;
-    const carritoEncontrado = await cart.getById(id);
-    const error = { error: 'Error: Carrito no encontrado' }
-    if (carritoEncontrado) {
-        res.render('pages/cart.ejs', { carrito: carritoEncontrado, error: false });
-    } else {
-        res.render('pages/cart.ejs', { carrito: carritoEncontrado, error: error });
-    }
-});
-
-routerCarrito.post('/:id/productos', async (req, res) => {
-    let { id } = req.params;
-    const carritoEncontrado = await cart.getById(id);
-    const error = { error: 'Error: Carrito no encontrado' }
-    let { body } = req;
-    let newProdToCart = await contenedor.getById(body.prodId)
-    await cart.saveNewProd(newProdToCart, id);
-    if (carritoEncontrado) {
-        res.render('pages/cart.ejs', { carrito: carritoEncontrado, error: false });
-    } else {
-        res.render('pages/cart.ejs', { carrito: carritoEncontrado, error: error });
-    }
-});
-
-//desde postman
-routerCarrito.delete('/:id', async (req, res) => {
+app.put('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        await cart.deleteById(id);
-        res.json('Carrito borrado');
+        const { id } = req.params
+        const { title, price, thumbnail } = req.body;
+        await prods.updateFromTableById(id, title, price, thumbnail)
+        res.json({ success: "producto modificado" });
     } catch (error) {
-        console.log(error)
+        res.json({ error: error });
     }
-
 });
 
-//desde postman
-routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
+app.delete('/:id', async (req, res) => {
     try {
-        const { id } = req.params;
-        const { id_prod } = req.params;
-        await cart.deleteProdById(id, id_prod);
-        res.json('Producto borrado');
+        const { id } = req.params
+        await prods.deleteFromTableById(id)
+        res.json({ success: "Producto borrado" });
     } catch (error) {
-        console.log(error)
+        res.json({ error: error });
     }
-
 });
 
-
-//ERRORES
-
-app.all('*', (req, res) => {
-    res.status(404).json({ error: -2, descripción: `ruta '${req.originalUrl}' método '${req.method}' no implementada` });
+app.delete('/', async (req, res) => {
+    try {
+        await prods.deleteWholeTable()
+        res.json({ success: "Todos los productos borrados" });
+    } catch (error) {
+        res.json({ error: error });
+    }
 });
