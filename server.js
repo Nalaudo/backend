@@ -24,10 +24,6 @@ app.listen(port, () => {
 
 //GENERAL
 
-const productos = await product.syncGetAll()
-
-const cartList = await cart.syncGetAll()
-
 let adminStatus = true
 
 app.get('/', (req, res) => {
@@ -55,6 +51,7 @@ app.get('/cartform', (req, res) => {
 
 routerProductos.get('/:id?', async (req, res) => {
     const { id } = req.params;
+    const productos = await product.syncGetAll()
     if (id) {
         const productoEncontrado = await product.getById(id);
         const error = { error: 'Error: Producto no encontrado' }
@@ -133,10 +130,15 @@ routerProductos.delete('/:id', (req, res, next) => {
 
 routerCarrito.post('/', async (req, res) => {
     try {
+        const cartList = await cart.syncGetAll()
         let { body } = req;
         let date = { timestamp: Date.now() }
-        let prods = await product.getByTitle(body.prod1)
-        let cartEnd = { prods, ...date }
+        let prod = undefined
+        let cartEnd = undefined
+        let prods = []
+        prod = await product.getByTitle(body.prod1)
+        prods.push(prod)
+        cartEnd = { prods, ...date }
         await cart.save(cartEnd)
         let createdCart = undefined
         if (cart.arr) {
@@ -144,11 +146,8 @@ routerCarrito.post('/', async (req, res) => {
         } else if (cart.fireb) {
             const lastAddedCart = await db.collection("carts").orderBy('timestamp', 'desc').limit(1).get();
             const dataRef = lastAddedCart.docs ? lastAddedCart.docs[0] : null;
-            const lAC = []
-            lAC.push(dataRef.data())
-            const res = lAC[0].id
-            createdCart = res;
-            console.log(createdCart)
+            const lAC = dataRef.data()
+            createdCart = lAC.timestamp;
         } else if (cart.filePath) {
             createdCart = cartList.length + 1
         } else {

@@ -44,7 +44,6 @@ class ContainerFireb {
             let carritoProds = carritoSelec[0].prods
             let newProd = { ...producto }
             carritoProds.push(newProd)
-            console.log(carritoProds)
             await db.collection(this.coll).doc(id).update({
                 prods: carritoProds
             });
@@ -54,7 +53,12 @@ class ContainerFireb {
     async getById(id) {
         try {
             const dataRecuperada = await this.syncGetAll();
-            const dataNueva = dataRecuperada.find((data) => data.id == id);
+            let dataNueva = undefined
+            if (id > 1) {
+                dataNueva = dataRecuperada.find((data) => data.timestamp == id);
+            } else {
+                dataNueva = dataRecuperada.find((data) => data.id == id);
+            }
             return dataNueva;
         } catch (e) {
             console.log(e);

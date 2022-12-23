@@ -30,6 +30,7 @@ class ContainerMongo {
                 res = await new Carts(item)
             }
             await res.save()
+            console.log(res)
         } catch (e) {
             console.log(e);
         }

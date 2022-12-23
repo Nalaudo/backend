@@ -83,7 +83,7 @@ class ContainerFs {
             const prods = carritoEncontrado.prods
             const carritosFiltrados = prods.filter((e) => e.id != id_prod);
             carritoEncontrado.prods = carritosFiltrados
-            fs.promises.writeFile(
+            promises.writeFile(
                 this.filePath,
                 JSON.stringify(carritos, null)
             );
