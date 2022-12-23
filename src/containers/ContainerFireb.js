@@ -8,20 +8,22 @@ admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
 
-const db = getFirestore();
+export const db = getFirestore();
 
 class ContainerFireb {
     constructor(coll) {
         this.coll = coll;
+        this.fireb = "fireb"
     };
 
     async syncGetAll() {
         try {
             const getColl = await db.collection(this.coll).get()
-            const items = getColl.forEach(doc => {
-                { doc.data() }
+            const docs = []
+            getColl.forEach(doc => {
+                docs.push({ ...doc.data(), id: doc.id });
             });
-            return [items];
+            return docs;
         } catch (e) {
             console.log(e);
         }
@@ -29,12 +31,6 @@ class ContainerFireb {
 
     async save(item) {
         try {
-            const items = await this.syncGetAll();
-            const id =
-                items.length === 0
-                    ? 1
-                    : items[items.length - 1].id + 1;
-            item.id = id;
             await db.collection(this.coll).add(item);
         } catch (e) {
             console.log(e);
@@ -45,8 +41,13 @@ class ContainerFireb {
         try {
             const carritos = await this.syncGetAll();
             let carritoSelec = carritos.filter(item => item.id == id)
-            let data = { ...carritoSelec.prods, ...producto }
-            await db.collection(this.coll).doc(id).set(data)
+            let carritoProds = carritoSelec[0].prods
+            let newProd = { ...producto }
+            carritoProds.push(newProd)
+            console.log(carritoProds)
+            await db.collection(this.coll).doc(id).update({
+                prods: carritoProds
+            });
         } catch (e) { console.log(e) }
     };
 
@@ -70,16 +71,25 @@ class ContainerFireb {
         }
     };
 
+    async deleteProdById(id, id_prod) {
+        try {
+            const carritos = await this.syncGetAll();
+            const carritoEncontrado = carritos.find((e) => e.id == id);
+            if (!carritoEncontrado) return console.log("el id no existe");
+            const prods = carritoEncontrado.prods
+            const carritosFiltrados = prods.filter((e) => e.id != id_prod);
+            await db.collection(this.coll).doc(id).update({
+                prods: carritosFiltrados
+            });
+            console.log("producto borrado");
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     async deleteById(id) {
         try {
-            const items = await this.syncGetAll();
-            const itemEncontrado = items.find((e) => e.id == id);
-            if (!itemEncontrado) return console.log("el id no existe");
-            const itemsFiltrados = items.filter((e) => e.id != id);
-            promises.writeFile(
-                this.filePath,
-                JSON.stringify(itemsFiltrados, null)
-            );
+            await db.collection(this.coll).doc(id).delete();
             console.log("item borrado");
         } catch (e) {
             console.log(e);
@@ -88,10 +98,13 @@ class ContainerFireb {
 
     async deleteAll() {
         try {
-            await promises.writeFile(
-                this.filePath,
-                JSON.stringify([], null)
-            );
+            db.collection("collectionName")
+                .get()
+                .then(res => {
+                    res.forEach(element => {
+                        element.ref.delete();
+                    });
+                });
             console.log("se borraron todos los items");
         } catch (e) {
             console.log(e);
@@ -103,18 +116,14 @@ class ContainerFireb {
             const items = await this.syncGetAll();
             const item = items.find((prod) => prod.id == id);
             if (item) {
-                item.title = title;
-                item.price = price;
-                item.thumbnail = thumbnail;
-                item.description = description;
-                item.code = code;
-                item.stock = stock;
-                console.log(item);
-                await promises.writeFile(
-                    this.filePath,
-                    JSON.stringify(items, null, 2)
-                );
-                return item;
+                await db.collection(this.coll).doc(id).update({
+                    title: title,
+                    price: price,
+                    thumbnail: thumbnail,
+                    description: description,
+                    code: code,
+                    stock: stock
+                });
             } else {
                 return { error: "Item no encontrado" };
             }

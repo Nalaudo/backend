@@ -75,6 +75,24 @@ class ContainerFs {
         }
     };
 
+    async deleteProdById(id, id_prod) {
+        try {
+            const carritos = await this.getAll();
+            const carritoEncontrado = carritos.find((e) => e.id == id);
+            if (!carritoEncontrado) return console.log("el id no existe");
+            const prods = carritoEncontrado.prods
+            const carritosFiltrados = prods.filter((e) => e.id != id_prod);
+            carritoEncontrado.prods = carritosFiltrados
+            fs.promises.writeFile(
+                this.filePath,
+                JSON.stringify(carritos, null)
+            );
+            console.log("producto borrado");
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     async deleteById(id) {
         try {
             const items = await this.getAll();

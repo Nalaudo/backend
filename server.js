@@ -1,14 +1,15 @@
 import express, { json, urlencoded } from 'express';
-import CartsFs from './src/daos/carts/CartsFs.js';
 const { Router } = express;
 const app = express();
 const routerProductos = Router();
 const routerCarrito = Router();
 const port = process.env.PORT || 8080;
 
-import instance from "./src/daos/index.js";
-const product = new instance.products;
-const cart = new instance.carts;
+import res from './src/daos/index.js';
+import { Carts } from './src/DB/models/carts.js';
+import { db } from './src/containers/ContainerFireb.js';
+const product = new res.products;
+const cart = new res.carts;
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -24,7 +25,6 @@ app.listen(port, () => {
 //GENERAL
 
 const productos = await product.syncGetAll()
-console.log(productos)
 
 const cartList = await cart.syncGetAll()
 
@@ -135,16 +135,27 @@ routerCarrito.post('/', async (req, res) => {
     try {
         let { body } = req;
         let date = { timestamp: Date.now() }
-        let cartProd1 = await product.getByTitle(body.prod1)
-        let prods = [{ ...cartProd1 }]
+        let prods = await product.getByTitle(body.prod1)
         let cartEnd = { prods, ...date }
         await cart.save(cartEnd)
         let createdCart = undefined
         if (cart.arr) {
             createdCart = cartList.length
-        } else {
+        } else if (cart.fireb) {
+            const lastAddedCart = await db.collection("carts").orderBy('timestamp', 'desc').limit(1).get();
+            const dataRef = lastAddedCart.docs ? lastAddedCart.docs[0] : null;
+            const lAC = []
+            lAC.push(dataRef.data())
+            const res = lAC[0].id
+            createdCart = res;
+            console.log(createdCart)
+        } else if (cart.filePath) {
             createdCart = cartList.length + 1
+        } else {
+            let finded = await Carts.find({}).sort({ _id: -1 }).limit(1)
+            createdCart = finded[0]._id
         }
+
         res.redirect(`/api/carrito/${createdCart}/productos`);
     } catch (error) {
         console.log(error)

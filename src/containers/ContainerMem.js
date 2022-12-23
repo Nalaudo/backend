@@ -54,6 +54,20 @@ class ContainerMem {
         }
     };
 
+    deleteProdById(id, id_prod) {
+        try {
+            const carritos = this.syncGetAll();
+            const carritoEncontrado = carritos.find((e) => e.id == id);
+            if (!carritoEncontrado) return console.log("el id no existe");
+            const prods = carritoEncontrado.prods
+            const carritosFiltrados = prods.filter((e) => e.id != id_prod);
+            carritoEncontrado.prods = carritosFiltrados
+            console.log("producto borrado");
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     deleteById(id) {
         try {
             const items = this.syncGetAll();
@@ -88,10 +102,7 @@ class ContainerMem {
                 item.code = code;
                 item.stock = stock;
                 console.log(item);
-                promises.writeFile(
-                    this.filePath,
-                    JSON.stringify(items, null, 2)
-                );
+                this.arr = items
                 return item;
             } else {
                 return { error: "Item no encontrado" };

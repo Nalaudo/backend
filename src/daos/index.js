@@ -5,6 +5,9 @@ import CartsMem from './carts/CartsMem.js'
 import ProductsMem from './products/ProductsMem.js'
 import ProductsFireb from './products/ProductsFireb.js'
 import CartsFireb from './carts/CartsFireb.js'
+import { connect } from 'mongoose';
+import ProductsMongo from './products/ProductsMongo.js'
+import CartsMongo from './carts/CartsMongo.js'
 
 config()
 
@@ -40,12 +43,12 @@ const instances = [
         description: 'carts'
     },
     {
-        name: ProductsMem,
+        name: ProductsMongo,
         id: 'mongo',
         description: 'products'
     },
     {
-        name: CartsMem,
+        name: CartsMongo,
         id: 'mongo',
         description: 'carts'
     }
@@ -59,3 +62,24 @@ const res = {
 }
 
 export default res
+
+export const connectMG = async () => {
+    if (res.products == instances[6].name && res.carts == instances[7].name) {
+        try {
+            await connect('mongodb://127.0.0.1:27017/ecommerce', { useNewUrlParser: true })
+        } catch (error) {
+            console.log(error)
+            throw 'connectMG failed'
+        }
+    }
+}
+
+export const db = await connectMG();
+
+
+
+
+
+
+
+
