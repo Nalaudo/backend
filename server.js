@@ -24,7 +24,7 @@ app.listen(port, () => {
 
 //GENERAL
 
-let adminStatus = true
+let adminStatus = true;
 
 app.get('/', (req, res) => {
     res.render('pages/inicio.ejs')
