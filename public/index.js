@@ -8,9 +8,11 @@ socket.on("arr-producto", (data) => {
 });
 
 socket.on("arr-chat", (data) => {
-    const html = data.reduce(
-        (html, item) => '<p style="padding: 16px 0px; margin: 0px"><span style="font-weight: bold; color: blue">' + item.author.id + '</span><span style="color: brown"> ' + item.author.date + ': </span><span style="font-style: italic; color: green" >' + item.text + '</span><img  style="border-radius: 50%; max-height: 5vh" src="' + item.author.avatar + '" /></p>' + html, ""
-    );
+    let html = "Chat"
+    Object.keys(data).forEach(key => {
+        const item = data[key]
+        html += '<p style="padding: 16px 0px; margin: 0px"><span style="font-weight: bold; color: blue">' + item.author.id + '</span><span style="color: brown"> ' + item.author.date + ': </span><span style="font-style: italic; color: green" >' + item.text + '</span><img  style="border-radius: 50%; max-height: 5vh" src="' + item.author.avatar + '" /></p>'
+    });
     document.getElementById("div-msg").innerHTML = html;
 });
 

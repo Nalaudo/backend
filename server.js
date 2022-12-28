@@ -8,8 +8,8 @@ const prods = new Products("products");
 const Messages = require('./src/container')
 const msgs = new Messages("messages");
 
-const fakerProds = require('./faker')
-console.log(fakerProds)
+const fakerProds = require('./src/mock/faker')
+const { normalize, schema } = require('normalizr');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,8 +36,18 @@ const db = connectMG();
 
 io.on("connection", async (socket) => {
     try {
+        const normalizr = async () => {
+            const authorSchema = new schema.Entity('author');
+            const textSchema = new schema.Entity('text');
+            const chatSchema = new schema.Entity('chats', { author: authorSchema, text: textSchema });
+            const getChats = await msgs.getAll()
+            console.log(JSON.stringify(getChats).length);
+            const normalizedChats = normalize(getChats, chatSchema);
+            console.log(JSON.stringify(normalizedChats.entities.chats.undefined).length);
+            return normalizedChats
+        }
         io.sockets.emit("arr-producto", await prods.getAll());
-        io.sockets.emit("arr-chat", await msgs.getAll());
+        io.sockets.emit("arr-chat", (await normalizr()).entities.chats.undefined);
 
         socket.on("data-productos", async (data) => {
             await prods.save(data)
@@ -45,7 +55,7 @@ io.on("connection", async (socket) => {
         });
         socket.on("data-chat", async (data) => {
             await msgs.save(data);
-            io.sockets.emit("arr-chat", await msgs.getAll());
+            io.sockets.emit("arr-chat", (await normalizr()).entities.chats.undefined);
         });
     } catch (error) {
         console.log(error)
@@ -59,7 +69,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/productos-test', (req, res) => {
-    res.render('pages/prods-test.ejs', { fakeProds: fakerProds });
+    res.render('pages/prods-test.ejs', { fakerProds: fakerProds });
 });
 
 app.get('/get/:id', async (req, res) => {
