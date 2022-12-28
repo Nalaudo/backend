@@ -1,19 +1,18 @@
-import { Products } from '../DB/models/products.js';
-import { Carts } from '../DB/models/carts.js';
+const Products = require('./models/products')
+const Messages = require('./models/messages')
 
-class ContainerMongo {
+class Container {
     constructor(coll) {
         this.coll = coll;
-        this.success = undefined
     };
 
-    async syncGetAll() {
+    async getAll() {
         try {
             let res = undefined
             if (this.coll == "products") {
                 res = await Products.find({})
-            } else if (this.coll == "carts") {
-                res = await Carts.find({})
+            } else if (this.coll == "messages") {
+                res = await Messages.find({})
             }
             return res;
         } catch (e) {
@@ -26,11 +25,10 @@ class ContainerMongo {
             let res = undefined
             if (this.coll == "products") {
                 res = await new Products(item)
-            } else if (this.coll == "carts") {
-                res = await new Carts(item)
+            } else if (this.coll == "messages") {
+                res = await new Messages(item)
             }
             await res.save()
-            console.log(res)
         } catch (e) {
             console.log(e);
         }
@@ -38,11 +36,11 @@ class ContainerMongo {
 
     async saveNewProd(producto, id) {
         try {
-            const carritos = await this.syncGetAll();
+            const carritos = await this.getAll();
             let carritoSelec = carritos.filter(item => item.id == id)
             let carritoProds = carritoSelec[0].prods
             carritoProds.push(producto)
-            await Carts.findByIdAndUpdate(id, {
+            await Messages.findByIdAndUpdate(id, {
                 prods: carritoProds
             });
         } catch (e) { console.log(e) }
@@ -53,8 +51,8 @@ class ContainerMongo {
             let res = undefined
             if (this.coll == "products") {
                 res = await Products.findById(id)
-            } else if (this.coll == "carts") {
-                res = await Carts.findById(id)
+            } else if (this.coll == "messages") {
+                res = await Messages.findById(id)
             }
             return res
         } catch (e) {
@@ -73,12 +71,12 @@ class ContainerMongo {
 
     async deleteProdById(id, id_prod) {
         try {
-            const carritos = await this.syncGetAll();
+            const carritos = await this.getAll();
             const carritoEncontrado = carritos.find((e) => e.id == id);
             if (!carritoEncontrado) return console.log("el id no existe");
             const prods = carritoEncontrado.prods
             const carritosFiltrados = prods.filter((e) => e.id != id_prod);
-            await Carts.findByIdAndUpdate(
+            await Messages.findByIdAndUpdate(
                 id,
                 {
                     prods: carritosFiltrados
@@ -94,8 +92,8 @@ class ContainerMongo {
         try {
             if (this.coll == "products") {
                 await Products.deleteOne({ _id: id })
-            } else if (this.coll == "carts") {
-                await Carts.deleteOne({ _id: id })
+            } else if (this.coll == "messages") {
+                await Messages.deleteOne({ _id: id })
             }
             console.log("item borrado");
         } catch (e) {
@@ -107,8 +105,8 @@ class ContainerMongo {
         try {
             if (this.coll == "products") {
                 await Products.deleteMany({})
-            } else if (this.coll == "carts") {
-                await Carts.deleteMany({})
+            } else if (this.coll == "messages") {
+                await Messages.deleteMany({})
             }
             console.log("se borraron todos los items");
         } catch (e) {
@@ -116,24 +114,20 @@ class ContainerMongo {
         }
     };
 
-    async updateById(id, title, price, thumbnail, description, code, stock) {
+    async updateById(id, title, price, thumbnail) {
         try {
             await Products.findByIdAndUpdate(
                 id,
                 {
                     title: title,
                     price: price,
-                    thumbnail: thumbnail,
-                    description: description,
-                    code: code,
-                    stock: stock
+                    thumbnail: thumbnail
                 }
             )
         } catch (error) {
             console.log(error);
         }
     };
-
 };
 
-export default ContainerMongo;
+module.exports = Container;

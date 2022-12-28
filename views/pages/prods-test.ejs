@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prods Tets</title>
+  </head>
+  <body>
+    <main>
+      <% fakeProds.forEach(element => { %>
+      <tr>
+        <td style="width: 15%"><% element%></td>
+        <td style="width: 15%">$<% element%></td>
+        <td style="width: 15%">
+          <img style="max-height: 5vh" src="<% element.thumbnail%>" />
+        </td>
+      </tr>
+      <% }) %>
+    </main>
+  </body>
+</html>
