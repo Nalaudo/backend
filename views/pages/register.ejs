@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="public/styles.css" />
+    <title>Registrarse</title>
+  </head>
+  <body>
+    <form action="/register" method="post">
+      <div class="container">
+        <h1>Registrarse</h1>
+        <p>Por favor rellena este formulario para crear una cuenta.</p>
+        <hr />
+
+        <label for="uname"><b>Nombre de usuario</b></label>
+        <input
+          type="text"
+          placeholder="Crea tu nombre de usuario"
+          name="uname"
+          id="uname"
+          required
+        />
+
+        <label for="psw"><b>Contraseña</b></label>
+        <input
+          type="password"
+          placeholder="Ingresar Contraseña"
+          name="psw"
+          id="psw"
+          required
+        />
+
+        <label for="psw-repeat"><b>Repetir Contraseña</b></label>
+        <input
+          type="password"
+          placeholder="Repetir Contraseña"
+          name="pswRepeat"
+          id="pswRepeat"
+          required
+        />
+
+        <% if (error != null) { %>
+        <p class="error">*<%= error%></p>
+        <% } %>
+        <hr />
+
+        <p>
+          Creando una cuenta aceptas nuestros
+          <a href="#">Términos & Privacidad</a>.
+        </p>
+        <button type="submit" class="registerbtn">Registrar</button>
+      </div>
+
+      <div class="container signin">
+        <p>¿Ya tenés una cuenta? <a href="/login">Ingresar</a>.</p>
+      </div>
+    </form>
+  </body>
+</html>

@@ -7,7 +7,6 @@
     <title>Socket</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="../../public/index.js"></script>
-    <script src=”https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js”></script>
     <style>
       table,
       th,
@@ -20,6 +19,9 @@
   <body style="margin: 0px">
     <%- include('../partials/navbar'); %>
     <main style="background-color: beige">
+      <h1 style="padding: 10px; margin: 0px; background-color: aqua">
+        Bienvenido <%= uname %>
+      </h1>
       <h1 style="padding: 10px; margin: 0px">Agregar producto</h1>
       <form style="padding: 20px 0px 20px 10px" onsubmit="return agregar()">
         <label>Título:</label>
