@@ -13,7 +13,8 @@
       }
     </style>
   </head>
-  <body>
+  <body style="margin: 0px">
+    <%- include('../partials/navbar', {email: email}); %>
     <main>
       <table style="width: 45%">
         <tr>
@@ -32,5 +33,6 @@
         <% }) %>
       </table>
     </main>
+    <%- include('../partials/footer'); %>
   </body>
 </html>

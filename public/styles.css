@@ -86,3 +86,11 @@ a {
 .error {
   color: red;
 }
+
+.input-error {
+  outline: 2px solid red;
+}
+
+#in-id {
+  pointer-events: none;
+}

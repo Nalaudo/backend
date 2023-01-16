@@ -76,9 +76,9 @@ class Container {
         };
     };
 
-    async getByUname(uname) {
+    async getByEmail(email) {
         try {
-            const res = await Users.findOne({ uname: uname }).exec();
+            const res = await Users.findOne({ email: email }).exec();
             return res;
         } catch (e) {
             console.log(e);

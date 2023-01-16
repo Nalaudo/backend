@@ -1,23 +1,24 @@
+//SERVER
 const express = require('express');
 const session = require('express-session');
-const MongoStore = require('connect-mongo')
 const app = express();
 const port = 8080;
-const routes = require("./routes");
-const { normalize, schema } = require('normalizr');
-const connectMG = require('./src/utils/mongoConnect');
-const Conatiner = require('./src/container');
-const prods = new Conatiner("products");
-const msgs = new Conatiner("messages");
 const httpServer = require("http").createServer(app);
-const io = require("socket.io")(httpServer);
-
-//MIDDLEWARES
-const authMiddle = require('./src/middleware/auth')
-
+httpServer.listen(process.env.PORT || port, () => {
+    console.log(`Server: http://localhost:${port}`);
+});
+const routes = require("./routes");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(__dirname + '/public'));
+app.set('view engine', 'ejs');
+
+//DB
+const MongoStore = require('connect-mongo');
+require('./src/utils/mongoConnect');
+const Conatiner = require('./src/container');
+const prods = new Conatiner("products");
+const msgs = new Conatiner("messages");
 app.use(session({
     store: MongoStore.create({
         mongoUrl: "mongodb+srv://Backend:Backend@backend.ep2dbvq.mongodb.net/ecommerce",
@@ -34,15 +35,22 @@ app.use(session({
     }
 })
 );
-app.set('view engine', 'ejs');
 
-httpServer.listen(process.env.PORT || port, () => {
-    console.log(`Server: http://localhost:${port}`);
-});
+//PASSPORT
+const passport = require('passport');
+require('./src/config/passport')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+//MIDDLEWARES
+const authMiddle = require('./src/middleware/auth');
+const passportAuth = require('./src/middleware/passportAuth');
 
 /*-------------------------*/
 //SOCKET
 /*-------------------------*/
+const io = require("socket.io")(httpServer);
+const { normalize, schema } = require('normalizr');
 
 io.on("connection", async (socket) => {
     try {
@@ -68,26 +76,31 @@ io.on("connection", async (socket) => {
     } catch (error) {
         console.log(error);
     }
-
 });
 
 /*-------------------------*/
 //ROUTES
 /*-------------------------*/
 
-app.get('/', authMiddle.auth, routes.getRoot);
+app.get('/', routes.getRoot);
 
-app.get('/register', routes.getRegister);
+app.get('/signup', routes.getSignup);
 
-app.post('/register', routes.postRegister);
+app.post('/signup', passportAuth.signupAuth(passport), routes.postSignup);
+
+app.get('/failSignup', routes.getFailSignup);
 
 app.get('/login', routes.getLogin);
 
-app.post('/login', routes.postLogin);
+app.post('/login', passportAuth.loginAuth(passport), routes.postLogin);
 
-app.get('/logout', routes.getLogout);
+app.get('/failLogin', routes.getFailLogin);
 
-app.get('/api/productos-test', routes.getTest);
+app.get('/logout', authMiddle.auth, routes.getLogout);
+
+app.get('/profile', authMiddle.auth, routes.getProfile);
+
+app.get('/api/productos-test', authMiddle.auth, routes.getTest);
 
 app.get('/get/:id', routes.getProd);
 

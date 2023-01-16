@@ -7,55 +7,48 @@
     <link rel="stylesheet" href="public/styles.css" />
     <title>Registrarse</title>
   </head>
-  <body>
-    <form action="/register" method="post">
+  <body style="margin: 0px">
+    <%- include('../partials/navbar', {email: email}); %>
+    <form action="/signup" method="post">
       <div class="container">
         <h1>Registrarse</h1>
         <p>Por favor rellena este formulario para crear una cuenta.</p>
         <hr />
-
-        <label for="uname"><b>Nombre de usuario</b></label>
+        <label for="email"><b>Dirección de Email</b></label>
         <input
           type="text"
-          placeholder="Crea tu nombre de usuario"
-          name="uname"
-          id="uname"
+          placeholder="Ingresa tu Email"
+          name="email"
+          id="email"
           required
         />
-
-        <label for="psw"><b>Contraseña</b></label>
+        <label for="password"><b>Contraseña</b></label>
         <input
           type="password"
           placeholder="Ingresar Contraseña"
-          name="psw"
-          id="psw"
+          name="password"
+          id="password"
           required
         />
-
-        <label for="psw-repeat"><b>Repetir Contraseña</b></label>
+        <label for="passwordRepeat"><b>Repetir Contraseña</b></label>
         <input
           type="password"
           placeholder="Repetir Contraseña"
-          name="pswRepeat"
-          id="pswRepeat"
+          name="passwordRepeat"
+          id="passwordRepeat"
           required
         />
-
-        <% if (error != null) { %>
-        <p class="error">*<%= error%></p>
-        <% } %>
         <hr />
-
         <p>
           Creando una cuenta aceptas nuestros
           <a href="#">Términos & Privacidad</a>.
         </p>
         <button type="submit" class="registerbtn">Registrar</button>
       </div>
-
       <div class="container signin">
         <p>¿Ya tenés una cuenta? <a href="/login">Ingresar</a>.</p>
       </div>
     </form>
+    <%- include('../partials/footer'); %>
   </body>
 </html>

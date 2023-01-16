@@ -1,11 +1,11 @@
 const fakerProds = require('./src/mock/faker');
 const Conatiner = require('./src/container');
 const prods = new Conatiner("products");
-const users = new Conatiner("users");
+
 
 function getRoot(req, res) {
-    const uname = req.session.user
-    res.render('pages/socket.ejs', { uname: uname });
+    const email = req.user?.email
+    res.render('pages/socket.ejs', { email: email });
 };
 
 function getTest(req, res) {
@@ -53,51 +53,55 @@ async function delAll(req, res) {
 };
 
 function getLogin(req, res) {
-    res.render('pages/login');
-};
-
-async function postLogin(req, res) {
-    const { uname, psw } = req.body;
-    if (uname != null && psw != null && uname != undefined && psw != undefined) {
-        req.session.user = uname
-        req.session.psw = psw
-        res.redirect('/');
+    const email = req.user?.email;
+    if (req.isAuthenticated()) {
+        res.redirect('/profile');
     } else {
-        res.render('pages/login', { error: '' });
+        res.render('pages/login', { email });
     }
 };
 
-function getRegister(req, res) {
-    res.render('pages/register', { error: null });
+function postLogin(req, res) {
+    res.redirect('/profile')
 };
 
-async function postRegister(req, res) {
-    const { uname, psw, pswRepeat } = req.body;
-    if (psw === pswRepeat) {
-        await users.save({ uname, psw })
-        res.redirect('/login');
+function getSignup(req, res) {
+    const email = req.user?.email;
+    if (req.isAuthenticated()) {
+        res.redirect('/profile');
     } else {
-        res.render('pages/register', { error: 'Las contraseñas no coinciden' });
+        res.render('pages/signup', { email });
     }
 };
 
-function getFaillogin(req, res) {
-    res.render("login-error");
+function postSignup(req, res) {
+    res.redirect('/profile');
 };
 
 function getLogout(req, res) {
-    const uname = req.session.user
-    req.session.destroy((err) => {
-        if (err) {
-            res.send('No se pudo desloguear')
-        } else {
-            res.render('pages/logout', { uname: uname })
-        }
+    const email = req.user?.email;
+    req.logout(function (err) {
+        if (err) console.log(err);
+        else res.render('pages/logout', { email });
     });
 };
 
+function getProfile(req, res) {
+    const email = req.user?.email;
+    res.render('pages/profile', { email })
+};
+
+function getFailLogin(req, res) {
+    res.render("pages/fail-login");
+};
+
+function getFailSignup(req, res) {
+    res.render("pages/fail-signup");
+};
+
 function failRoute(req, res) {
-    res.status(404).render("pages/404");
+    const email = req.user?.email;
+    res.status(404).render("pages/404", { email });
 };
 
 module.exports = {
@@ -109,9 +113,11 @@ module.exports = {
     delAll,
     getLogin,
     postLogin,
-    getRegister,
-    postRegister,
-    getFaillogin,
+    getSignup,
+    postSignup,
+    getFailLogin,
+    getFailSignup,
     getLogout,
+    getProfile,
     failRoute,
 };
