@@ -1,4 +1,6 @@
-const signupAuth = (passport) => passport.authenticate('signup', { failureRedirect: '/failSignup' })
-const loginAuth = (passport) => passport.authenticate('login', { failureRedirect: '/failLogin' })
+const passport = require('passport');
+
+const signupAuth = () => passport.authenticate('signup', { failureRedirect: '/failSignup' })
+const loginAuth = () => passport.authenticate('login', { failureRedirect: '/failLogin' })
 
 module.exports = { signupAuth, loginAuth }

@@ -1,19 +1,22 @@
+/*-------------------------*/
 //SERVER
+/*-------------------------*/
+const config = require('./src/config/config')
 const express = require('express');
 const session = require('express-session');
 const app = express();
-const port = 8080;
-const httpServer = require("http").createServer(app);
-httpServer.listen(process.env.PORT || port, () => {
-    console.log(`Server: http://localhost:${port}`);
+const server = require("http").createServer(app);
+server.listen(config.PORT, () => {
+    console.log(`Server: http://localhost:${config.PORT}`);
 });
-const routes = require("./routes");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
+/*-------------------------*/
 //DB
+/*-------------------------*/
 const MongoStore = require('connect-mongo');
 require('./src/utils/mongoConnect');
 const Conatiner = require('./src/container');
@@ -21,13 +24,13 @@ const prods = new Conatiner("products");
 const msgs = new Conatiner("messages");
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: "mongodb+srv://Backend:Backend@backend.ep2dbvq.mongodb.net/ecommerce",
+        mongoUrl: config.MONGO_CONNECTION,
         mongoOptions: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         },
     }),
-    secret: "secret",
+    secret: config.SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -36,20 +39,18 @@ app.use(session({
 })
 );
 
+/*-------------------------*/
 //PASSPORT
+/*-------------------------*/
 const passport = require('passport');
 require('./src/config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-//MIDDLEWARES
-const authMiddle = require('./src/middleware/auth');
-const passportAuth = require('./src/middleware/passportAuth');
-
 /*-------------------------*/
 //SOCKET
 /*-------------------------*/
-const io = require("socket.io")(httpServer);
+const io = require("socket.io")(server);
 const { normalize, schema } = require('normalizr');
 
 io.on("connection", async (socket) => {
@@ -81,33 +82,4 @@ io.on("connection", async (socket) => {
 /*-------------------------*/
 //ROUTES
 /*-------------------------*/
-
-app.get('/', routes.getRoot);
-
-app.get('/signup', routes.getSignup);
-
-app.post('/signup', passportAuth.signupAuth(passport), routes.postSignup);
-
-app.get('/failSignup', routes.getFailSignup);
-
-app.get('/login', routes.getLogin);
-
-app.post('/login', passportAuth.loginAuth(passport), routes.postLogin);
-
-app.get('/failLogin', routes.getFailLogin);
-
-app.get('/logout', authMiddle.auth, routes.getLogout);
-
-app.get('/profile', authMiddle.auth, routes.getProfile);
-
-app.get('/api/productos-test', authMiddle.auth, routes.getTest);
-
-app.get('/get/:id', routes.getProd);
-
-app.put('/update/:id', routes.updProd);
-
-app.delete('/:id', routes.delProd);
-
-app.delete('/', routes.delAll);
-
-app.get('*', routes.failRoute);
+const routes = require("./routes/routes")(app)
