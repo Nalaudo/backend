@@ -1,5 +1,3 @@
-
-
 module.exports = function routes(app) {
     const root = require('./root')(app)
     const info = require('./info')(app)

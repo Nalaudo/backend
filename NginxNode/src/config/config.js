@@ -8,7 +8,7 @@ const INFO = {
     platform: process.platform,
     version: process.version,
     rss: process.memoryUsage().rss,
-    path: __dirname,
+    path: process.argv[1],
     pid: process.pid,
     folder: process.cwd()
 }
