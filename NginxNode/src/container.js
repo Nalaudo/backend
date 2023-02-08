@@ -1,6 +1,7 @@
 const Products = require('./models/products');
 const Messages = require('./models/messages');
 const Users = require('./models/users');
+const logger = require('./config/logger');
 
 class Container {
     constructor(coll) {
@@ -19,7 +20,7 @@ class Container {
             };
             return res;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -35,7 +36,7 @@ class Container {
             };
             await res.save();
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     }
 
@@ -49,7 +50,7 @@ class Container {
                 prods: carritoProds
             });
         } catch (e) {
-            console.log(e)
+            logger.error(e)
         };
     };
 
@@ -63,7 +64,7 @@ class Container {
             };
             return res;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -72,7 +73,7 @@ class Container {
             const res = await Products.findOne({ title: title }).exec();
             return res;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -81,7 +82,7 @@ class Container {
             const res = await Users.findOne({ email: email }).exec();
             return res;
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -100,7 +101,7 @@ class Container {
             );
             console.log("producto borrado");
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -115,7 +116,7 @@ class Container {
             };
             console.log("item borrado");
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -130,7 +131,7 @@ class Container {
             };
             console.log("se borraron todos los items");
         } catch (e) {
-            console.log(e);
+            logger.error(e);
         };
     };
 
@@ -144,8 +145,8 @@ class Container {
                     thumbnail: thumbnail
                 }
             );
-        } catch (error) {
-            console.log(error);
+        } catch (e) {
+            logger.error(e);
         };
     };
 };

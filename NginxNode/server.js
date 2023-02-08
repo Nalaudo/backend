@@ -1,14 +1,17 @@
 /*-------------------------*/
 //SERVER
 /*-------------------------*/
+const logger = require('./src/config/logger');
 const config = require('./src/config/config')
 const express = require('express');
 const session = require('express-session');
+const compression = require('compression')
 const app = express();
 const server = require("http").createServer(app);
 server.listen(config.PORT, () => {
     console.log(`Server: http://localhost:${config.PORT}`);
 });
+app.use(compression())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static(__dirname + '/public'));
@@ -75,7 +78,7 @@ io.on("connection", async (socket) => {
             io.sockets.emit("arr-chat", (await normalizr()).entities.chats.undefined);
         });
     } catch (error) {
-        console.log(error);
+        logger.error(error)
     }
 });
 
