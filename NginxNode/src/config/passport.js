@@ -1,6 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const Users = require('../models/users');
 const bcrypt = require('bcrypt');
+const signupEmail = require('./nodemailer')
 
 module.exports = (passport) => {
     function createHash(password) {
@@ -64,16 +65,23 @@ module.exports = (passport) => {
                         const newUser = {
                             email: email,
                             password: createHash(password),
+                            nombre: req.body.name,
+                            direccion: req.body.adress,
+                            edad: req.body.age,
+                            telefono: '+' + `${req.body.countryCode}` + `${req.body.phone}`,
+                            avatar: req.file
                         };
+
                         Users.create(newUser, (err, userWithId) => {
                             if (err) {
                                 console.log('Error in Saving user: ' + err);
                                 return done(err);
                             }
-                            console.log(user + '1121212121')
+                            signupEmail(userWithId)
                             console.log('User Registration succesful');
                             return done(null, userWithId);
                         });
+
                     } else {
                         return done(null, false)
                     }

@@ -7,9 +7,10 @@
     <title>Document</title>
   </head>
   <body style="margin: 0px">
-    <%- include('../partials/navbar', {email: email}); %>
+    <%- include('../partials/navbar', {email: user.email}); %>
     <main>
-      <h1>Tu perfil <%= email %></h1>
+      <h1>Tu perfil <%= user.email %></h1>
+      <img src="<%= user.avatar.path %>" alt="Avatar" />
     </main>
     <%- include('../partials/footer'); %>
   </body>
