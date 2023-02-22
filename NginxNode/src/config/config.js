@@ -1,3 +1,4 @@
+const logger = require('./logger')
 require('dotenv').config()
 const yargs = require('yargs/yargs')(process.argv.slice(0))
 const ARGS = yargs.argv

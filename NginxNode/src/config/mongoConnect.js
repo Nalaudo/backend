@@ -1,11 +1,11 @@
 const config = require('./config')
 const mongoose = require('mongoose');
-
+const logger = require('./logger');
 const connectMG = async () => {
     try {
         await mongoose.connect(config.MONGO_CONNECTION, { useNewUrlParser: true });
     } catch (error) {
-        console.log(error);
+        logger.error(error);
         throw 'connectMG failed';
     }
 }

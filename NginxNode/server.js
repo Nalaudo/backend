@@ -8,9 +8,11 @@ const session = require('express-session');
 const compression = require('compression');
 const app = express();
 const server = require("http").createServer(app);
+
 server.listen(config.PORT, () => {
     console.log(`Server: http://localhost:${config.PORT}`);
 });
+
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

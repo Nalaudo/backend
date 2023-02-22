@@ -1,61 +1,41 @@
 const Products = require('../models/products');
 const Users = require('../models/users');
+const logger = require('./logger');
 
 class Cart {
 
     async findCart(user) {
         try {
             let res = await Users.findOne({ email: user.email });
-            if (res.cart) {
-                res = res.cart
-            } else {
-                res = undefined
-            }
-            return res;
+            return res.cart;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         };
     }
 
     async updateCart(user, newProds) {
         try {
-            const cart = this.findCart(user);
+            const cart = await this.findCart(user);
             const newCart = [...cart, ...newProds];
-            console.log(newCart)
-            await Users.updateOne({ email: user.email }, { cart: newCart });
+            const res = newCart.filter(element => {
+                if (Object.keys(element).length !== 0) {
+                    return true;
+                }
+                return false;
+            });
+            await Users.updateOne({ email: user.email }, { cart: res });
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         };
     }
 
     async findProdById(id) {
         try {
             const prod = await Products.findById(id).exec()
-            console.log(prod)
             return prod;
         } catch (error) {
-            console.log(error);
+            logger.error(error);
         };
-    }
-
-
-    async deleteOneProd(user, prodToDel) {
-        try {
-            const cart = this.findCart(user);
-            function removeObjectWithId(arr, id) {
-                ;
-                const objWithIdIndex = arr.findIndex((obj) => obj._id === id);
-                if (objWithIdIndex > -1) {
-                    arr.splice(objWithIdIndex, 1);
-                }
-                return arr;
-            }
-            const newCart = removeObjectWithId(cart, prodToDel._id);
-            const res = await Users.updateOne({ email: user.email }, { cart: newCart });
-            return res;
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     async deleteCart(user) {
@@ -64,7 +44,7 @@ class Cart {
             const res = await Users.updateOne({ email: user.email }, { cart: cart });
             return res;
         } catch (error) {
-            console.log(error)
+            logger.error(error)
         }
     }
 

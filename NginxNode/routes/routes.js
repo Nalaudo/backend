@@ -11,6 +11,7 @@ module.exports = function routes(app) {
     const logout = require('./logout')(app)
     const profile = require('./profile')(app)
     const cart = require('./cart')(app)
+    const checkout = require('./checkout')(app)
     const notFound = require('./notFound')(app)
     const routes = {
         root,
@@ -25,6 +26,7 @@ module.exports = function routes(app) {
         logout,
         profile,
         cart,
+        checkout,
         notFound
     }
     return routes
