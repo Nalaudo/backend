@@ -1,7 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const Users = require('../models/users');
 const bcrypt = require('bcrypt');
-const mailer = require('./nodemailer');
+const mailer = require('../utils/nodemailer');
 const logger = require('./logger');
 
 module.exports = (passport) => {

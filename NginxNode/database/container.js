@@ -1,7 +1,7 @@
-const Products = require('./models/products');
-const Messages = require('./models/messages');
-const Users = require('./models/users');
-const logger = require('./config/logger');
+const Products = require('../src/models/products');
+const Messages = require('../src/models/messages');
+const Users = require('../src/models/users');
+const logger = require('../src/config/logger');
 
 class Container {
     constructor(coll) {
@@ -151,4 +151,8 @@ class Container {
     };
 };
 
-module.exports = Container;
+const prods = new Container("products");
+const msgs = new Container("messages");
+const users = new Container("users");
+
+module.exports = { prods, msgs, users };

@@ -1,5 +1,5 @@
 const multer = require('multer');
-const logger = require('./logger');
+const logger = require('../config/logger');
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/uploads/')

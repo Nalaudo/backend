@@ -1,6 +1,6 @@
-const Products = require('../models/products');
-const Users = require('../models/users');
-const logger = require('./logger');
+const Products = require('../src/models/products');
+const Users = require('../src/models/users');
+const logger = require('../src/config/logger');
 
 class Cart {
 
@@ -50,4 +50,6 @@ class Cart {
 
 }
 
-module.exports = Cart;
+const cart = new Cart()
+
+module.exports = cart;

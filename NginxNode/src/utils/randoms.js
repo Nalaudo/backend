@@ -1,4 +1,4 @@
-const logger = require('./logger');
+const logger = require('../config/logger');
 process.on("message", ({ msg, cant }) => {
     if (msg == "start") {
         const randoms = []

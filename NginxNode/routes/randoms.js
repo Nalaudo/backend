@@ -1,26 +1,9 @@
-const { fork } = require("child_process");
+const { Router } = require('express')
+const { getRandomsController } = require('../controllers/randoms')
 const logger = require('../src/config/logger');
 
-module.exports = function randoms(app) {
-    app.get('/api/randoms', (req, res) => {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        let cant = req.query.cant
-        const msg = 'start'
-        let randoms = fork('./src/config/randoms');
-        const port = process.argv[2]
-        if (cant) {
-            randoms.send({ msg, cant });
-            randoms.on("message", (msg) => {
-                const { data } = msg;
-                res.render('pages/randoms.ejs', { cant: data, port });
-            });
-        } else {
-            cant = 100000000
-            randoms.send({ msg, cant });
-            randoms.on("message", (msg) => {
-                const { data } = msg;
-                res.render('pages/randoms.ejs', { cant: data, port });
-            });
-        }
-    });
-}
+const routerRandoms = new Router();
+
+routerRandoms.get('/', getRandomsController);
+
+module.exports = routerRandoms;

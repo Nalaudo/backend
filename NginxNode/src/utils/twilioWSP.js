@@ -1,11 +1,11 @@
-const logger = require('./logger');
+const logger = require('../config/logger');
 const accountSid = 'ACc6889f9f228d14971b9c164228f20f06';
 const authToken = process.env.TWILIO_WSP;
 const client = require('twilio')(accountSid, authToken);
 
 const twilioWSP = (user) => {
-    const ADMIN = '+5493425324333'
-    if (user.telefono) {
+    const ADMIN = process.env.TWILIO_ADMIN_WSP
+    if (user?.telefono) {
         client.messages
             .create({
                 body: 'Tu pedido ha sido recibido y se encuentra en proceso',

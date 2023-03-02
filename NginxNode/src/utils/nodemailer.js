@@ -1,8 +1,8 @@
 const { createTransport } = require('nodemailer');
-const logger = require('./logger');
+const logger = require('../config/logger');
 
 const mailer = (user, data, to) => {
-    const ADMIN_MAIL = 'nicobalaudo@gmail.com'
+    const ADMIN_MAIL = process.env.NODEMAILER_ADMIN
 
     const transporter = createTransport({
         service: 'gmail',

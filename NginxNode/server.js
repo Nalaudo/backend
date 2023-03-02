@@ -23,10 +23,7 @@ app.set('view engine', 'ejs');
 //DB
 /*-------------------------*/
 const MongoStore = require('connect-mongo');
-require('./src/config/mongoConnect');
-const Conatiner = require('./src/container');
-const prods = new Conatiner("products");
-const msgs = new Conatiner("messages");
+require('./src/utils/mongoConnect');
 app.use(session({
     store: MongoStore.create({
         mongoUrl: config.MONGO_CONNECTION,
@@ -56,6 +53,7 @@ app.use(passport.session());
 //SOCKET
 /*-------------------------*/
 const io = require("socket.io")(server);
+const { prods, msgs } = require('./database/container');
 const { normalize, schema } = require('normalizr');
 
 io.on("connection", async (socket) => {
@@ -87,4 +85,33 @@ io.on("connection", async (socket) => {
 /*-------------------------*/
 //ROUTES
 /*-------------------------*/
-const routes = require("./routes/routes")(app)
+const routerCart = require('./routes/cart');
+const routerCheckout = require('./routes/checkout');
+const routerInfo = require('./routes/info');
+const routerInorganics = require('./routes/inorganics');
+const routerLogin = require('./routes/login');
+const routerLogout = require('./routes/logout');
+const routerNotFound = require('./routes/notFound');
+const routerOrganics = require('./routes/organics');
+const routerProd = require('./routes/prod');
+const routerProfile = require('./routes/profile');
+const routerRandoms = require('./routes/randoms');
+const routerRoot = require('./routes/root');
+const routerSignup = require('./routes/signup');
+const routerTest = require('./routes/test');
+
+app.use('/cart', routerCart)
+app.use('/checkout', routerCheckout)
+app.use('/info', routerInfo)
+app.use('/inorganics', routerInorganics)
+app.use('/login', routerLogin)
+app.use('/logout', routerLogout)
+app.use('/organics', routerOrganics)
+app.use('/prod', routerProd)
+app.use('/profile', routerProfile)
+app.use('/api/randoms', routerRandoms)
+app.use('/', routerRoot)
+app.use('/signup', routerSignup)
+app.use('/api/productosTest', routerTest)
+
+app.use('*', routerNotFound)

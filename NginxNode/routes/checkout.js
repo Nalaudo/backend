@@ -1,19 +1,10 @@
-const mailer = require('../src/config/nodemailer');
-const twilioWSP = require('../src/config/twilioWSP');
+const { Router } = require('express')
+const { getCheckoutController } = require('../controllers/checkout')
 const authMiddle = require('../src/middleware/auth');
-const Cart = require('../src/config/cart')
-const cartOptions = new Cart()
 const logger = require('../src/config/logger');
 
-module.exports = function root(app) {
-    app.get('/checkout', authMiddle.auth, async (req, res) => {
-        const user = req?.user
-        const email = req.user?.email
-        const cart = req.user?.cart
-        twilioWSP(user)
-        twilioWSP('+5493425324333')
-        mailer(user, cart, 'checkoutMail')
-        await cartOptions.deleteCart(user)
-        res.render('pages/checkout.ejs', { email });
-    });
-}
+const routerCheckout = new Router();
+
+routerCheckout.get('/', authMiddle.auth, getCheckoutController);
+
+module.exports = routerCheckout;
