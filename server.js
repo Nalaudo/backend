@@ -23,7 +23,8 @@ app.set('view engine', 'ejs');
 //DB
 /*-------------------------*/
 const MongoStore = require('connect-mongo');
-require('./src/utils/mongoConnect');
+const { connectMG } = require('./src/utils/mongoConnect');
+connectMG()
 if (process.env.PERSISTENCY === 'mongo') {
     app.use(session({
         store: MongoStore.create({
@@ -67,6 +68,9 @@ app.use(passport.session());
 /*-------------------------*/
 const io = require("socket.io")(server);
 const ContainerFactory = require('./src/database/DAOs/containerFactory');
+const a = new ContainerFactory()
+const b = new ContainerFactory()
+console.log('Son misma instancia:', a === b)
 const prods = ContainerFactory.get('products', process.env.PERSISTENCY)
 const msgs = ContainerFactory.get('messages', process.env.PERSISTENCY)
 const { normalize, schema } = require('normalizr');

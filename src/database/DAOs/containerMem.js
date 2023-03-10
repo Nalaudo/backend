@@ -8,7 +8,7 @@ class ContainerMem {
         this.users = []
     };
 
-    async getAll() {
+    getAll() {
         try {
             let res = undefined;
             if (this.coll == "products") {
@@ -24,7 +24,7 @@ class ContainerMem {
         };
     };
 
-    async save(item) {
+    save(item) {
         try {
             let res = undefined;
             const id = (arr, item) => {
@@ -44,7 +44,7 @@ class ContainerMem {
         };
     }
 
-    async getById(id) {
+    getById(id) {
         try {
             let res = undefined
             if (this.coll == "products") {
@@ -58,7 +58,7 @@ class ContainerMem {
         };
     };
 
-    async getByTitle(title) {
+    getByTitle(title) {
         try {
             const res = this.products.find(({ prod }) => prod.title === title);
             return res;
@@ -67,7 +67,7 @@ class ContainerMem {
         };
     };
 
-    async getByEmail(email) {
+    getByEmail(email) {
         try {
             const res = this.users.find(({ user }) => user.email === email);
             return res;
@@ -76,10 +76,10 @@ class ContainerMem {
         };
     };
 
-    async deleteById(id) {
+    deleteById(id) {
         try {
             const filtered = async () => {
-                const arr = await this.getAll();
+                const arr = this.getAll();
                 return arr.filter((e) => e.id != id);
             }
             if (this.coll == "products") {
@@ -95,7 +95,7 @@ class ContainerMem {
         };
     };
 
-    async deleteAll() {
+    deleteAll() {
         try {
             if (this.coll == "products") {
                 this.products = [];
@@ -110,9 +110,9 @@ class ContainerMem {
         };
     };
 
-    async updateById(id, title, price, thumbnail) {
+    updateById(id, title, price, thumbnail) {
         try {
-            const products = await this.getAll();
+            const products = this.getAll();
             const item = products.find((prod) => prod.id == id);
             if (item) {
                 item.title = title;

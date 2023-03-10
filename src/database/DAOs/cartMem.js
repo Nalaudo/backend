@@ -1,5 +1,6 @@
-const Products = require('../models/products');
-const Users = require('../models/users');
+const ContainerMem = require('./containerMem');
+const prods = new ContainerMem('products')
+const users = new ContainerMem('users')
 const logger = require('../../config/logger');
 
 class CartMem {
@@ -7,9 +8,7 @@ class CartMem {
     async updateCart(user, newProds) {
         try {
             const cart = user.cart;
-            console.log(cart)
             cart.push(newProds)
-            console.log(cart)
             return cart
         } catch (error) {
             logger.error(error);
@@ -18,7 +17,7 @@ class CartMem {
 
     async findProdById(id) {
         try {
-            const prod = await Products.findById(id).exec()
+            const prod = prods.getById(id);
             return prod;
         } catch (error) {
             logger.error(error);
@@ -27,9 +26,10 @@ class CartMem {
 
     async deleteCart(user) {
         try {
-            const cart = user.cart;
-            const res = await Users.updateOne({ email: user.email }, { cart: cart });
-            return res;
+            const getUsers = users.getAll()
+            const userFind = getUsers.find(({ u }) => u.email === user.email);
+            userFind.cart = []
+            return userFind;
         } catch (error) {
             logger.error(error)
         }
