@@ -1,4 +1,4 @@
 node_modules
-.prettierrc
+.prettierrc.js
 a.js
 .env
