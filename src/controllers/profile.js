@@ -1,9 +1,13 @@
-const logger = require('../config/logger');
+import logger from '../config/logger.js';
 
-const getProfileController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    const user = req?.user
-    res.render('pages/profile', { user })
+class ProfileController {
+    getProfileController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        const user = req?.user
+        res.render('pages/profile', { user })
+    }
 }
 
-module.exports = { getProfileController }
+const profileController = new ProfileController()
+
+export default profileController

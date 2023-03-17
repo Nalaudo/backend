@@ -1,16 +1,13 @@
-const config = require('../config/config')
-const mongoose = require('mongoose');
-const logger = require('../config/logger');
+import { MONGO_CONNECTION } from '../config/config.js';
+import mongoose from 'mongoose';
 
 let connection;
 
 const connectMG = async () => {
-
     if (!connection) {
-        connection = await mongoose.connect(config.MONGO_CONNECTION, { useNewUrlParser: true });
-        console.log('Connected to MongoDB database');
+        connection = await mongoose.connect(MONGO_CONNECTION, { useNewUrlParser: true });
     }
     return connection;
 }
 
-module.exports = { connectMG }
+export default connectMG;

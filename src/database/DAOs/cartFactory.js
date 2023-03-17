@@ -1,13 +1,7 @@
-const CartMem = require('./cartMem')
-const CartMongo = require('./cartMongo')
+import CartMem from './cartMem.js';
+import CartMongo from './cartMongo.js';
 
 class CartFactory {
-  constructor() {
-    if (CartFactory.instance) {
-      return CartFactory.instance;
-    }
-    CartFactory.instance = this;
-  }
   static get(tipo) {
     switch (tipo) {
       case "mem":
@@ -20,4 +14,4 @@ class CartFactory {
   }
 }
 
-module.exports = CartFactory;
+export default CartFactory;

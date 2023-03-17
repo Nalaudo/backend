@@ -1,7 +1,8 @@
-const logger = require('../config/logger');
+import logger from '../config/logger.js';
 const accountSid = 'ACc6889f9f228d14971b9c164228f20f06';
 const authToken = process.env.TWILIO_WSP;
-const client = require('twilio')(accountSid, authToken);
+import TwilioSDK from 'twilio';
+const client = TwilioSDK(accountSid, authToken)
 
 const twilioWSP = (user) => {
     const ADMIN = process.env.TWILIO_ADMIN_WSP
@@ -25,4 +26,4 @@ const twilioWSP = (user) => {
 
 
 
-module.exports = twilioWSP
+export default twilioWSP

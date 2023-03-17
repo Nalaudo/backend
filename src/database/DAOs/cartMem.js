@@ -1,7 +1,7 @@
-const ContainerMem = require('./containerMem');
+import ContainerMem from './containerMem.js';
 const prods = new ContainerMem('products')
 const users = new ContainerMem('users')
-const logger = require('../../config/logger');
+import logger from '../../config/logger.js';
 
 class CartMem {
 
@@ -37,4 +37,4 @@ class CartMem {
 
 }
 
-module.exports = CartMem;
+export default CartMem;

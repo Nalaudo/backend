@@ -1,10 +1,10 @@
-const LocalStrategy = require('passport-local').Strategy;
-const Users = require('../database/models/users');
-const bcrypt = require('bcrypt');
-const mailer = require('../utils/nodemailer');
-const logger = require('./logger');
+import { Strategy as LocalStrategy } from 'passport-local'
+import Users from '../database/models/users.js';
+import bcrypt from 'bcrypt'
+import mailer from '../utils/nodemailer.js';
+import logger from './logger.js';
 
-module.exports = (passport) => {
+const passportConfig = (passport) => {
     function createHash(password) {
         return bcrypt.hashSync(
             password,
@@ -102,3 +102,5 @@ module.exports = (passport) => {
         Users.findById(id, done);
     });
 };
+
+export default passportConfig;

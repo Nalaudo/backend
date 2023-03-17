@@ -1,12 +1,16 @@
-const { calculateRandoms } = require('../services/randoms');
-const logger = require('../config/logger');
+import randomsService from '../services/randoms.js';
+import logger from '../config/logger.js';
 
-const getRandomsController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    let cant = req.query.cant
-    const msg = 'start'
-    const port = process.argv[2]
-    calculateRandoms(req, res, cant, msg, port)
+class RandomsController {
+    getRandomsController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        let cant = req.query.cant
+        const msg = 'start'
+        const port = process.argv[2]
+        randomsService.calculateRandoms(req, res, cant, msg, port)
+    }
 }
 
-module.exports = { getRandomsController }
+const randomsController = new RandomsController()
+
+export default randomsController

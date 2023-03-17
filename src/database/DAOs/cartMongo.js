@@ -1,6 +1,6 @@
-const Products = require('../models/products');
-const Users = require('../models/users');
-const logger = require('../../config/logger');
+import Products from '../models/products.js';
+import Users from '../models/users.js';
+import logger from '../../config/logger.js';
 
 class CartMongo {
 
@@ -41,6 +41,4 @@ class CartMongo {
 
 }
 
-
-
-module.exports = CartMongo;
+export default CartMongo;

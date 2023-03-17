@@ -1,9 +1,9 @@
-const { Router } = require('express')
-const { getNotFoundController } = require('../controllers/notFound')
-const logger = require('../config/logger');
+import { Router } from 'express';
+import notFoundController from '../controllers/notFound.js';
+import logger from '../config/logger.js';
 
 const routerNotFound = new Router();
 
-routerNotFound.get('/', getNotFoundController);
+routerNotFound.get('/', notFoundController.getNotFoundController);
 
-module.exports = routerNotFound;
+export default routerNotFound;

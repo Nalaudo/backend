@@ -1,13 +1,7 @@
-const ContainerMem = require('./containerMem')
-const ContainerMongo = require('./containerMongo')
+import ContainerMem from './containerMem.js';
+import ContainerMongo from './containerMongo.js';
 
 class ContainerFactory {
-  constructor() {
-    if (ContainerFactory.instance) {
-      return ContainerFactory.instance;
-    }
-    ContainerFactory.instance = this;
-  }
   static get(coll, tipo) {
     switch (tipo) {
       case "mem":
@@ -19,4 +13,4 @@ class ContainerFactory {
     }
   }
 }
-module.exports = ContainerFactory;
+export default ContainerFactory;

@@ -1,10 +1,10 @@
-const { Router } = require('express')
-const { getTestController } = require('../controllers/test')
-const authMiddle = require('../middleware/auth');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import testController from '../controllers/test.js';
+import auth from '../middleware/auth.js';
+import logger from '../config/logger.js';
 
 const routerTest = new Router();
 
-routerTest.get('/', authMiddle.auth, getTestController);
+routerTest.get('/', auth, testController.getTestController);
 
-module.exports = routerTest;
+export default routerTest;

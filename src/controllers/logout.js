@@ -1,10 +1,14 @@
-const { logoutReq } = require('../services/logout');
-const logger = require('../config/logger');
+import logoutService from '../services/logout.js';
+import logger from '../config/logger.js';
 
-const getLogoutController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    const email = req.user?.email;
-    logoutReq(req, res, email)
+class LogoutController {
+    getLogoutController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        const email = req.user?.email;
+        logoutService.logoutReq(req, res, email)
+    }
 }
 
-module.exports = { getLogoutController }
+const logoutController = new LogoutController()
+
+export default logoutController

@@ -1,5 +1,5 @@
-const multer = require('multer');
-const logger = require('../config/logger');
+import multer from 'multer';
+import logger from '../config/logger.js';
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'public/uploads/')
@@ -11,4 +11,4 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage }).single('file');
 
-module.exports = upload
+export default upload

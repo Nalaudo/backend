@@ -1,10 +1,15 @@
-const fakerProds = require('../mock/faker');
-const logger = require('../config/logger');
+import testService from '../services/test.js';
+import logger from '../config/logger.js';
 
-const getTestController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    const email = req.user?.email
-    res.render('pages/prods-test.ejs', { fakerProds, email });
+class TestController {
+    getTestController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        const email = req.user?.email
+        const fakerProds = testService.fakerMocks()
+        res.render('pages/prods-test.ejs', { fakerProds, email });
+    }
 }
 
-module.exports = { getTestController }
+const testController = new TestController()
+
+export default testController

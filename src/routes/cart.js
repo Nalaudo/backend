@@ -1,12 +1,12 @@
-const { Router } = require('express')
-const { getCartControllerDelete, getCartControllerPut, getCartController } = require('../controllers/cart')
-const authMiddle = require('../middleware/auth');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import cartController from '../controllers/cart.js';
+import auth from '../middleware/auth.js';
+import logger from '../config/logger.js';
 
 const routerCart = new Router();
 
-routerCart.get('/del', authMiddle.auth, getCartControllerDelete);
-routerCart.get('/:id', authMiddle.auth, getCartControllerPut);
-routerCart.get('/', authMiddle.auth, getCartController);
+routerCart.get('/del', auth, cartController.getCartControllerDelete);
+routerCart.get('/:id', auth, cartController.getCartControllerPut);
+routerCart.get('/', auth, cartController.getCartController);
 
-module.exports = routerCart;
+export default routerCart;

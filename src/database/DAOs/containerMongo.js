@@ -1,7 +1,7 @@
-const Products = require('../models/products');
-const Messages = require('../models/messages');
-const Users = require('../models/users');
-const logger = require('../../config/logger');
+import Products from '../models/products.js';
+import Messages from '../models/messages.js';
+import Users from '../models/users.js';
+import logger from '../../config/logger.js';
 
 class ContainerMongo {
     constructor(coll) {
@@ -10,15 +10,13 @@ class ContainerMongo {
 
     async getAll() {
         try {
-            let res = undefined;
             if (this.coll == "products") {
-                res = await Products.find({});
+                return await Products.find({});
             } else if (this.coll == "messages") {
-                res = await Messages.find({});
+                return await Messages.find({});
             } else if (this.coll == "users") {
-                res = await Users.find({});
+                return await Users.find({});
             };
-            return res;
         } catch (e) {
             logger.error(e);
         };
@@ -26,15 +24,16 @@ class ContainerMongo {
 
     async save(item) {
         try {
-            let res = undefined;
             if (this.coll == "products") {
-                res = await new Products(item);
+                let res = new Products(item);
+                await res.save();
             } else if (this.coll == "messages") {
-                res = await new Messages(item);
+                let res = new Messages(item);
+                await res.save();
             } else if (this.coll == "users") {
-                res = await Users(item);
+                let res = new Users(item);
+                await res.save();
             };
-            await res.save();
         } catch (e) {
             logger.error(e);
         };
@@ -42,13 +41,11 @@ class ContainerMongo {
 
     async getById(id) {
         try {
-            let res = undefined
             if (this.coll == "products") {
-                res = await Products.findById(id);
+                return await Products.findById(id);
             } else if (this.coll == "messages") {
-                res = await Messages.findById(id);
+                return await Messages.findById(id);
             };
-            return res;
         } catch (e) {
             logger.error(e);
         };
@@ -56,17 +53,23 @@ class ContainerMongo {
 
     async getByTitle(title) {
         try {
-            const res = await Products.findOne({ title: title }).exec();
-            return res;
+            return await Products.findOne({ title: title }).exec();
         } catch (e) {
             logger.error(e);
         };
     };
 
+    async getByCategory(category) {
+        try {
+            return await Products.findOne({ category: category }).exec();
+        } catch (e) {
+            logger.error(e);
+        };
+    }
+
     async getByEmail(email) {
         try {
-            const res = await Users.findOne({ email: email }).exec();
-            return res;
+            return await Users.findOne({ email: email }).exec();
         } catch (e) {
             logger.error(e);
         };
@@ -79,7 +82,7 @@ class ContainerMongo {
             } else if (this.coll == "messages") {
                 await Messages.deleteOne({ _id: id });
             } else if (this.coll == "users") {
-                res = await Users.deleteOne({ _id: id });
+                await Users.deleteOne({ _id: id });
             };
             logger.info("item borrado");
         } catch (e) {
@@ -94,7 +97,7 @@ class ContainerMongo {
             } else if (this.coll == "messages") {
                 await Messages.deleteMany({});
             } else if (this.coll == "users") {
-                res = await Users.deleteMany({});
+                await Users.deleteMany({});
             };
             logger.info("se borraron todos los items");
         } catch (e) {
@@ -118,4 +121,4 @@ class ContainerMongo {
     };
 };
 
-module.exports = ContainerMongo;
+export default ContainerMongo;

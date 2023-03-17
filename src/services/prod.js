@@ -1,24 +1,28 @@
-const ContainerFactory = require('../database/DAOs/containerFactory');
-const prods = new ContainerFactory('products')
-const logger = require('../config/logger');
+import ContainerFactory from '../database/DAOs/containerFactory.js';
+import logger from '../config/logger.js';
 
-class Prods {
+class ProdsService {
     constructor() {
-        this.prodsDao = 'xd'
+        this.prodsDao = ContainerFactory.get('products', process.env.PERSISTENCY)
+    }
+
+    getAllProds = async () => {
+        return await this.prodsDao.getAll()
+    }
+    getProd = async (id) => {
+        return await this.prodsDao.getById(id);
+    }
+    putProd = async (id) => {
+        return await this.prodsDao.getById(id);
+    }
+    deleteProd = async (id) => {
+        return await this.prodsDao.deleteById(id);
+    }
+    deleteAllProds = async () => {
+        return await this.prodsDao.deleteAll();
     }
 }
+const prodsService = new ProdsService()
 
-const getProd = async (id) => {
-    return await prods.getById(id);
-}
-const putProd = async (id) => {
-    return await prods.getById(id);
-}
-const deleteProd = async (id) => {
-    return await prods.deleteById(id);
-}
-const deleteAllProds = async () => {
-    return await prods.deleteAll();
-}
 
-module.exports = { getProd, putProd, deleteProd, deleteAllProds }
+export default prodsService

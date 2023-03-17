@@ -1,10 +1,10 @@
-const { Router } = require('express')
-const { getInorganicsController } = require('../controllers/inorganics')
-const authMiddle = require('../middleware/auth');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import inorganicsController from '../controllers/inorganics.js';
+import auth from '../middleware/auth.js';
+import logger from '../config/logger.js';
 
 const routerInorganics = new Router();
 
-routerInorganics.get('/', authMiddle.auth, getInorganicsController);
+routerInorganics.get('/', auth, inorganicsController.getInorganicsController);
 
-module.exports = routerInorganics;
+export default routerInorganics;

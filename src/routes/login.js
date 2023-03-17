@@ -1,13 +1,13 @@
-const { Router } = require('express')
-const { getLoginController, postLoginController, getFailLoginController } = require('../controllers/login')
-const authMiddle = require('../middleware/auth');
-const passportAuth = require('../middleware/passportAuth');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import loginController from '../controllers/login.js';
+import auth from '../middleware/auth.js';
+import passportAuth from '../middleware/passportAuth.js';
+import logger from '../config/logger.js';
 
 const routerLogin = new Router();
 
-routerLogin.get('/', getLoginController);
-routerLogin.post('/', passportAuth.loginAuth(), postLoginController);
-routerLogin.get('/failLogin', authMiddle.auth, getFailLoginController);
+routerLogin.get('/', loginController.getLoginController);
+routerLogin.post('/', passportAuth.loginAuth(), loginController.postLoginController);
+routerLogin.get('/failLogin', auth, loginController.getFailLoginController);
 
-module.exports = routerLogin;
+export default routerLogin;

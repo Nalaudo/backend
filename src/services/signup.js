@@ -1,11 +1,15 @@
-const logger = require('../config/logger');
+import logger from '../config/logger.js';
 
-const signupCheck = (req, res, email) => {
-    if (req.isAuthenticated()) {
-        res.redirect('/profile');
-    } else {
-        res.render('pages/signup', { email });
+class SignupService {
+    signupCheck = (req, res, email) => {
+        if (req.isAuthenticated()) {
+            res.redirect('/profile');
+        } else {
+            res.render('pages/signup', { email });
+        }
     }
 }
 
-module.exports = { signupCheck }
+const signupService = new SignupService()
+
+export default signupService

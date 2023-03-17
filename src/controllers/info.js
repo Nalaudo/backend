@@ -1,9 +1,13 @@
-const { infoLogic } = require('../services/info');
-const logger = require('../config/logger');
+import infoService from '../services/info.js';
+import logger from '../config/logger.js';
 
-const getInfoController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    infoLogic(req, res)
+class InfoController {
+    getInfoController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        infoService.infoLogic(req, res)
+    }
 }
 
-module.exports = { getInfoController }
+const infoController = new InfoController()
+
+export default infoController

@@ -1,10 +1,13 @@
-const config = require('../config/config')
-const logger = require('../config/logger');
+import logger from '../config/logger.js';
 
-const getNotFoundController = (req, res) => {
-    logger.warn('Ruta ' + req.originalUrl + ' no encontrada con método: ' + req.method)
-    const email = req.user?.email;
-    res.status(404).render("pages/404", { email });
+class NotFoundController {
+    getNotFoundController = (req, res) => {
+        logger.warn('Ruta ' + req.originalUrl + ' no encontrada con método: ' + req.method)
+        const email = req.user?.email;
+        res.status(404).render("pages/404", { email });
+    }
 }
 
-module.exports = { getNotFoundController }
+const notFoundController = new NotFoundController()
+
+export default notFoundController

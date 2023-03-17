@@ -1,12 +1,16 @@
-const checkoutService = require('../services/checkout');
-const logger = require('../config/logger');
+import checkoutService from '../services/checkout.js';
+import logger from '../config/logger.js';
 
-const getCheckoutController = async (req, res) => {
-    const user = req?.user
-    const email = req.user?.email
-    const cart = req.user?.cart
-    await checkoutService.sendWspAndEmail(user, cart)
-    res.render('pages/checkout.ejs', { email });
+class CheckoutController {
+    getCheckoutController = async (req, res) => {
+        const user = req?.user
+        const email = req.user?.email
+        const cart = req.user?.cart
+        await checkoutService.sendWspAndEmail(user, cart)
+        res.render('pages/checkout.ejs', { email });
+    }
 }
 
-module.exports = { getCheckoutController }
+const checkoutController = new CheckoutController()
+
+export default checkoutController

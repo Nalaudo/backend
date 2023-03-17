@@ -1,10 +1,10 @@
-const { Router } = require('express')
-const { getProfileController } = require('../controllers/profile')
-const authMiddle = require('../middleware/auth');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import profileController from '../controllers/profile.js';
+import auth from '../middleware/auth.js';
+import logger from '../config/logger.js';
 
 const routerProfile = new Router();
 
-routerProfile.get('/', authMiddle.auth, getProfileController);
+routerProfile.get('/', auth, profileController.getProfileController);
 
-module.exports = routerProfile;
+export default routerProfile;

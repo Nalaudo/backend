@@ -1,11 +1,14 @@
-const authMiddle = require('../middleware/auth');
-const logger = require('../config/logger');
+import logger from '../config/logger.js';
 
-const logoutReq = (req, res, email) => {
-    req.logout(function (err) {
-        if (err) logger.info(err);
-        else res.render('pages/logout', { email });
-    });
+class LogoutService {
+    logoutReq = (req, res, email) => {
+        req.logout(function (err) {
+            if (err) logger.info(err);
+            else res.render('pages/logout', { email });
+        });
+    }
 }
 
-module.exports = { logoutReq }
+const logoutService = new LogoutService()
+
+export default logoutService

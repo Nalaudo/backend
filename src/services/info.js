@@ -1,14 +1,20 @@
-const { fork } = require("child_process");
-const logger = require('../config/logger');
+import { fork } from 'child_process';
+import logger from '../config/logger.js';
 
-const infoLogic = (req, res) => {
-    const config = fork('./src/config/config');
-    const msg = 'getInfo'
-    config.send({ msg })
-    config.on("message", (msg) => {
-        const { INFO } = msg
-        res.render('pages/info.ejs', { INFO });
-    });
+class InfoService {
+    infoLogic = (req, res) => {
+        const config = fork('./src/config/config');
+        const msg = 'getInfo'
+        config.send({ msg })
+        config.on("message", (msg) => {
+            const { INFO } = msg
+            res.render('pages/info.ejs', { INFO });
+        });
+    }
 }
 
-module.exports = { infoLogic }
+
+
+const infoService = new InfoService()
+
+export default infoService

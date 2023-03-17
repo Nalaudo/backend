@@ -1,9 +1,9 @@
-const { Router } = require('express')
-const { getInfoController } = require('../controllers/info')
-const logger = require('../config/logger');
+import { Router } from 'express';
+import infoController from '../controllers/info.js';
+import logger from '../config/logger.js';
 
 const routerInfo = new Router();
 
-routerInfo.get('/', getInfoController);
+routerInfo.get('/', infoController.getInfoController);
 
-module.exports = routerInfo;
+export default routerInfo;

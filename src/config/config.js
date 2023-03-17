@@ -1,10 +1,14 @@
-const logger = require('./logger')
-require('dotenv').config()
-const yargs = require('yargs/yargs')(process.argv.slice(0))
+import dotenv from 'dotenv'
+import yargs from 'yargs'
+
+dotenv.config()
+yargs(process.argv.slice(0))
+
 const ARGS = yargs.argv
-const PORT = ARGS._[2] || 8080
+const PORT = process.env.PORT || 8080
 const MONGO_CONNECTION = process.env.MONGO_CONNECTION
 const SECRET = process.env.SECRET
+
 process.on('message', ({ msg }) => {
     if (msg == 'getInfo') {
         const INFO = {
@@ -19,7 +23,7 @@ process.on('message', ({ msg }) => {
     }
 })
 
-module.exports = {
+export {
     ARGS,
     PORT,
     MONGO_CONNECTION,

@@ -1,44 +1,57 @@
-const { getProd, putProd, deleteProd, deleteAllProds } = require('../services/prod');
-const logger = require('../config/logger');
+import prodsService from '../services/prod.js';
+import logger from '../config/logger.js';
 
-const getProdController = async (req, res) => {
-    try {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        const { id } = req.params;
-        const prod = await getProd(id)
-        res.json(prod);
-    } catch (error) {
-        res.json({ error: error });
-    };
-}
-const putProdController = async (req, res) => {
-    try {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        const { id } = req.params;
-        const prod = await putProd(id)
-        res.json(prod);
-    } catch (error) {
-        res.json({ error: error });
-    };
-}
-const deleteProdController = async (req, res) => {
-    try {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        const { id } = req.params;
-        await deleteProd(id)
-        res.json({ success: "Producto borrado" });
-    } catch (error) {
-        res.json({ error: error });
-    };
-}
-const deleteAllProdsController = async (req, res) => {
-    try {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        await deleteAllProds()
-        res.json({ success: "Todos los productos borrados" });
-    } catch (error) {
-        res.json({ error: error });
-    };
+class ProdsController {
+    getAllProdsController = async (req, res) => {
+        try {
+            logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+            const prods = await prodsService.getAllProds()
+            res.json(prods);
+        } catch (error) {
+            res.json({ error: error });
+        };
+    }
+    getProdController = async (req, res) => {
+        try {
+            logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+            const { id } = req.params;
+            const prod = await prodsService.getProd(id)
+            res.json(prod);
+        } catch (error) {
+            res.json({ error: error });
+        };
+    }
+    putProdController = async (req, res) => {
+        try {
+            logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+            const { id } = req.params;
+            const prod = await prodsService.putProd(id)
+            res.json(prod);
+        } catch (error) {
+            res.json({ error: error });
+        };
+    }
+    deleteProdController = async (req, res) => {
+        try {
+            logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+            const { id } = req.params;
+            await prodsService.deleteProd(id)
+            res.json({ success: "Producto borrado" });
+        } catch (error) {
+            res.json({ error: error });
+        };
+    }
+    deleteAllProdsController = async (req, res) => {
+        try {
+            logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+            await prodsService.deleteAllProds()
+            res.json({ success: "Todos los productos borrados" });
+        } catch (error) {
+            res.json({ error: error });
+        };
+    }
 }
 
-module.exports = { getProdController, putProdController, deleteProdController, deleteAllProdsController }
+const prodsController = new ProdsController()
+
+export default prodsController

@@ -1,10 +1,10 @@
-const { Router } = require('express')
-const { getCheckoutController } = require('../controllers/checkout')
-const authMiddle = require('../middleware/auth');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import checkoutController from '../controllers/checkout.js';
+import auth from '../middleware/auth.js';
+import logger from '../config/logger.js';
 
 const routerCheckout = new Router();
 
-routerCheckout.get('/', authMiddle.auth, getCheckoutController);
+routerCheckout.get('/', auth, checkoutController.getCheckoutController);
 
-module.exports = routerCheckout;
+export default routerCheckout;

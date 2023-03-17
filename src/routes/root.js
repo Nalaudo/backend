@@ -1,9 +1,9 @@
-const { Router } = require('express')
-const { getRootController } = require('../controllers/root')
-const logger = require('../config/logger');
+import { Router } from 'express';
+import rootController from '../controllers/root.js';
+import logger from '../config/logger.js';
 
 const routerRoot = new Router();
 
-routerRoot.get('/', getRootController);
+routerRoot.get('/', rootController.getRootController);
 
-module.exports = routerRoot;
+export default routerRoot;

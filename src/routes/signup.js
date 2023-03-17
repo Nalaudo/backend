@@ -1,13 +1,13 @@
-const { Router } = require('express')
-const { getSignupController, getFailSignupController, postSignupController } = require('../controllers/signup')
-const passportAuth = require('../middleware/passportAuth');
-const upload = require('../utils/multer');
-const logger = require('../config/logger');
+import { Router } from 'express';
+import signupController from '../controllers/signup.js';
+import passportAuth from '../middleware/passportAuth.js';
+import upload from '../utils/multer.js';
+import logger from '../config/logger.js';
 
 const routerSignup = new Router();
 
-routerSignup.get('/', getSignupController);
-routerSignup.get('/failSignup', getFailSignupController);
-routerSignup.post('/', upload, passportAuth.signupAuth(), postSignupController);
+routerSignup.get('/', signupController.getSignupController);
+routerSignup.get('/failSignup', signupController.getFailSignupController);
+routerSignup.post('/', upload, passportAuth.signupAuth(), signupController.postSignupController);
 
-module.exports = routerSignup;
+export default routerSignup;

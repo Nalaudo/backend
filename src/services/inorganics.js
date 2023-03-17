@@ -1,8 +1,16 @@
-const logger = require('../config/logger');
-const Products = require('../database/models/products');
+import logger from '../config/logger.js';
+import ContainerFactory from '../database/DAOs/containerFactory.js';
 
-const findInorganics = async () => {
-    return await Products.find({ category: 'inorganic' }).exec();
+class InorganicsService {
+    constructor() {
+        this.inorganicsDao = ContainerFactory.get('products', process.env.PERSISTENCY)
+    }
+
+    findInorganics = async () => {
+        return await this.inorganicsDao.getByCategory('inorganic')
+    }
 }
 
-module.exports = { findInorganics }
+const inorganicsService = new InorganicsService()
+
+export default inorganicsService

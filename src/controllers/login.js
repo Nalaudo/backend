@@ -1,20 +1,24 @@
-const { loginCheck } = require('../services/login');
-const logger = require('../config/logger');
+import loginService from '../services/login.js';
+import logger from '../config/logger.js';
 
-const getLoginController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    const email = req.user?.email
-    loginCheck(req, res, email)
+class LoginController {
+    getLoginController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        const email = req.user?.email
+        loginService.loginCheck(req, res, email)
+    }
+
+    postLoginController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        res.redirect('/profile')
+    }
+
+    getFailLoginController = (req, res) => {
+        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
+        res.render("pages/fail-login");
+    }
 }
 
-const postLoginController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    res.redirect('/profile')
-}
+const loginController = new LoginController()
 
-const getFailLoginController = (req, res) => {
-    logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-    res.render("pages/fail-login");
-}
-
-module.exports = { getLoginController, postLoginController, getFailLoginController }
+export default loginController

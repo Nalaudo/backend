@@ -1,14 +1,14 @@
-const mailer = require('../utils/nodemailer');
-const twilioWSP = require('../utils/twilioWSP');
-const Cart = require('../database/DAOs/cartFactory')
-const logger = require('../config/logger');
+import mailer from '../utils/nodemailer.js';
+import twilioWSP from '../utils/twilioWSP.js';
+import CartFactory from '../database/DAOs/cartFactory.js';
+import logger from '../config/logger.js';
 
 class CheckoutService {
     constructor() {
-        this.checkoutDao = Cart.get(process.env.PERSISTENCY)
+        this.checkoutDao = CartFactory.get(process.env.PERSISTENCY)
     }
 
-    async sendWspAndEmail(user, cart) {
+    sendWspAndEmail = async (user, cart) => {
         twilioWSP(user)
         twilioWSP(process.env.TWILIO_ADMIN_WSP)
         mailer(user, cart, 'checkoutMail')
@@ -18,4 +18,4 @@ class CheckoutService {
 
 const checkoutService = new CheckoutService()
 
-module.exports = checkoutService
+export default checkoutService

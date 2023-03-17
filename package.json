@@ -1,12 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "mongo": "set NODE_ENV=mongo&& nodemon server.js",
-    "mem": "set NODE_ENV=mem&& nodemon server.js"
+    "mongo": "set PERSISTENCY=mongo&& nodemon server.js",
+    "mem": "set PERSISTENCY=mem&& nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "body-parser": "^1.20.1",
     "compression": "^1.7.4",
     "connect-mongo": "^4.6.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "ejs": "^3.1.8",
     "express": "^4.18.2",

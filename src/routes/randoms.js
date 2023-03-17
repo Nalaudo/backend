@@ -1,9 +1,9 @@
-const { Router } = require('express')
-const { getRandomsController } = require('../controllers/randoms')
-const logger = require('../config/logger');
+import { Router } from 'express';
+import randomsController from '../controllers/randoms.js';
+import logger from '../config/logger.js';
 
 const routerRandoms = new Router();
 
-routerRandoms.get('/', getRandomsController);
+routerRandoms.get('/', randomsController.getRandomsController);
 
-module.exports = routerRandoms;
+export default routerRandoms;
