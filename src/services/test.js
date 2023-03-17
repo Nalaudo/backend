@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker'
 import logger from '../config/logger.js';
 
 class TestService {

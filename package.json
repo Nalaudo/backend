@@ -5,6 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "mocha ./src/test/test.js",
     "start": "nodemon server.js",
     "mongo": "set PERSISTENCY=mongo&& nodemon server.js",
     "mem": "set PERSISTENCY=mem&& nodemon server.js"
@@ -31,10 +32,13 @@
     "socket.io": "^4.5.3",
     "twilio": "^4.8.0",
     "winston": "^3.8.2",
-    "yargs": "^17.6.2"
+    "yargs": "^17.7.1"
   },
   "devDependencies": {
-    "faker": "^5.5.3",
-    "nodemon": "^2.0.20"
+    "@faker-js/faker": "^7.6.0",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
   }
 }

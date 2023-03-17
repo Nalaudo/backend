@@ -275,3 +275,8 @@
 {"level":"warn","message":"Ruta /public/styles.css no encontrada con método: GET"}
 {"level":"warn","message":"Ruta /styles.css no encontrada con método: GET"}
 {"level":"warn","message":"Ruta /styles.css no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /favicon.ico no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /public/uploads/file-1678398034153-845768806.png no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /b no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /b no encontrada con método: GET"}
+{"level":"warn","message":"Ruta /b no encontrada con método: GET"}

@@ -94,7 +94,7 @@ class ExpressServer {
         this.app.use('/login', routerLogin)
         this.app.use('/logout', routerLogout)
         this.app.use('/organics', routerOrganics)
-        this.app.use('/prod', routerProd)
+        this.app.use('/prods', routerProd)
         this.app.use('/profile', routerProfile)
         this.app.use('/api/randoms', routerRandoms)
         this.app.use('/', routerRoot)
