@@ -1,9 +1,8 @@
-import passport from 'passport';
-import logger from '../config/logger.js';
+import passport from 'passport'
 
 class PassportAuth {
-    signupAuth = () => passport.authenticate('signup', { failureRedirect: '/signup/failSignup' })
-    loginAuth = () => passport.authenticate('login', { failureRedirect: '/login/failLogin' })
+  signupAuth = () => passport.authenticate('signup', { failureFlash: 'Signup error' })
+  loginAuth = () => passport.authenticate('login', { failureRedirect: '/login/failLogin' })
 }
 
 const passportAuth = new PassportAuth()

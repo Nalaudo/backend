@@ -1,12 +1,10 @@
-import logger from '../config/logger.js';
-
 class LogoutService {
-    logoutReq = (req, res, email) => {
-        req.logout(function (err) {
-            if (err) logger.info(err);
-            else res.render('pages/logout', { email });
-        });
-    }
+  logoutReq = (req) => {
+    req.logout(function (err) {
+      if (err) return { error: 'Logout error' }
+      else return { success: 'Successfully logged out' }
+    })
+  }
 }
 
 const logoutService = new LogoutService()

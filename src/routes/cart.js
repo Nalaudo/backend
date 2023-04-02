@@ -1,12 +1,11 @@
-import { Router } from 'express';
-import cartController from '../controllers/cart.js';
-import auth from '../middleware/auth.js';
-import logger from '../config/logger.js';
+import { Router } from 'express'
+import cartController from '../controllers/cart.js'
+import auth from '../middleware/auth.js'
 
-const routerCart = new Router();
+const routerCart = new Router()
 
-routerCart.get('/del', auth, cartController.getCartControllerDelete);
-routerCart.get('/:id', auth, cartController.getCartControllerPut);
-routerCart.get('/', auth, cartController.getCartController);
+routerCart.get('/del', auth, cartController.getCartControllerDelete)
+routerCart.get('/:id', auth, cartController.getCartControllerPut)
+routerCart.get('/', auth, cartController.getCartController)
 
-export default routerCart;
+export default routerCart

@@ -1,40 +1,25 @@
-import ContainerMem from './containerMem.js';
-const prods = new ContainerMem('products')
+import ContainerMem from './containerMem.js'
+const products = new ContainerMem('products')
 const users = new ContainerMem('users')
-import logger from '../../config/logger.js';
 
 class CartMem {
+  async updateCart (user, newProducts) {
+    const cart = user.cart
+    cart.push(newProducts)
+    return cart
+  }
 
-    async updateCart(user, newProds) {
-        try {
-            const cart = user.cart;
-            cart.push(newProds)
-            return cart
-        } catch (error) {
-            logger.error(error);
-        };
-    }
+  async findProductById (id) {
+    const product = products.getById(id)
+    return product
+  }
 
-    async findProdById(id) {
-        try {
-            const prod = prods.getById(id);
-            return prod;
-        } catch (error) {
-            logger.error(error);
-        };
-    }
-
-    async deleteCart(user) {
-        try {
-            const getUsers = users.getAll()
-            const userFind = getUsers.find(({ u }) => u.email === user.email);
-            userFind.cart = []
-            return userFind;
-        } catch (error) {
-            logger.error(error)
-        }
-    }
-
+  async deleteCart (user) {
+    const getUsers = users.getAll()
+    const userFind = getUsers.find(({ u }) => u.email === user.email)
+    userFind.cart = []
+    return userFind
+  }
 }
 
-export default CartMem;
+export default CartMem

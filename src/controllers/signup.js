@@ -1,20 +1,18 @@
-import signupService from '../services/signup.js';
-import logger from '../config/logger.js';
+import signupService from '../services/signup.js'
 
 class SignupController {
-    getSignupController = (req, res) => {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        const email = req.user?.email;
-        signupService.signupCheck(req, res, email)
-    }
+  getSignupController = (req, res) => {
+    const email = req.user?.email
+    signupService.signupCheck(req, res, email)
+  }
 
-    getFailSignupController = (req, res) => {
-        res.render("pages/fail-signup");
-    }
+  getFailSignupController = (req, res) => {
+    res.render('pages/fail-signup')
+  }
 
-    postSignupController = (req, res) => {
-        res.redirect('/profile');
-    }
+  postSignupController = (req, res) => {
+    res.redirect('/profile')
+  }
 }
 
 const signupController = new SignupController()

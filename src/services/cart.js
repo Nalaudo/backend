@@ -1,22 +1,21 @@
-import CartFactory from '../database/DAOs/cartFactory.js';
-import logger from '../config/logger.js';
+import CartFactory from '../database/DAOs/cartFactory.js'
+import { PERSISTENCE } from '#config/config.js'
 
 class CartService {
-    constructor() {
-        this.cartDao = CartFactory.get(process.env.PERSISTENCY)
-    }
+  constructor () {
+    this.cartDao = CartFactory.get(PERSISTENCE)
+  }
 
-    deleteCart = async (user) => {
-        return await this.cartDao.deleteCart(user)
-    }
+  deleteCart = async (user) => {
+    return await this.cartDao.deleteCart(user)
+  }
 
-    findProdUpdateCart = async (id, user) => {
-        const prod = await this.cartDao.findProdById(id)
-        return await this.cartDao.updateCart(user, prod)
-    }
+  findProductUpdateCart = async (id, user) => {
+    const product = await this.cartDao.findProductById(id)
+    return await this.cartDao.updateCart(user, product)
+  }
 }
 
 const cartService = new CartService()
-
 
 export default cartService

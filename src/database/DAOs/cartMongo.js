@@ -1,44 +1,29 @@
-import Products from '../models/products.js';
-import Users from '../models/users.js';
-import logger from '../../config/logger.js';
+import Productucts from '../models/products.js'
+import Users from '../models/users.js'
 
 class CartMongo {
+  async updateCart (user, newProducts) {
+    const cart = user.cart
+    const newCart = [...cart, ...newProducts]
+    const res = newCart.filter(element => {
+      if (Object.keys(element).length !== 0) {
+        return true
+      }
+      return false
+    })
+    await Users.updateOne({ email: user.email }, { cart: res })
+  }
 
-    async updateCart(user, newProds) {
-        try {
-            const cart = user.cart;
-            const newCart = [...cart, ...newProds];
-            const res = newCart.filter(element => {
-                if (Object.keys(element).length !== 0) {
-                    return true;
-                }
-                return false;
-            });
-            await Users.updateOne({ email: user.email }, { cart: res });
-        } catch (error) {
-            logger.error(error);
-        };
-    }
+  async findProductById (id) {
+    const product = await Productucts.findById(id).exec()
+    return product
+  }
 
-    async findProdById(id) {
-        try {
-            const prod = await Products.findById(id).exec()
-            return prod;
-        } catch (error) {
-            logger.error(error);
-        };
-    }
-
-    async deleteCart(user) {
-        try {
-            const cart = [];
-            const res = await Users.updateOne({ email: user.email }, { cart: cart });
-            return res;
-        } catch (error) {
-            logger.error(error)
-        }
-    }
-
+  async deleteCart (user) {
+    const cart = []
+    const res = await Users.updateOne({ email: user.email }, { cart })
+    return res
+  }
 }
 
-export default CartMongo;
+export default CartMongo

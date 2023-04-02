@@ -1,14 +1,13 @@
-import checkoutService from '../services/checkout.js';
-import logger from '../config/logger.js';
+import checkoutService from '../services/checkout.js'
 
 class CheckoutController {
-    getCheckoutController = async (req, res) => {
-        const user = req?.user
-        const email = req.user?.email
-        const cart = req.user?.cart
-        await checkoutService.sendWspAndEmail(user, cart)
-        res.render('pages/checkout.ejs', { email });
-    }
+  getCheckoutController = async (req, res) => {
+    const user = req?.user
+    const email = req.user?.email
+    const cart = req.user?.cart
+    await checkoutService.sendWspAndEmail(user, cart)
+    res.render('pages/checkout.ejs', { email })
+  }
 }
 
 const checkoutController = new CheckoutController()

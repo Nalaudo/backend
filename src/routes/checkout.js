@@ -1,10 +1,9 @@
-import { Router } from 'express';
-import checkoutController from '../controllers/checkout.js';
-import auth from '../middleware/auth.js';
-import logger from '../config/logger.js';
+import { Router } from 'express'
+import checkoutController from '../controllers/checkout.js'
+import auth from '../middleware/auth.js'
 
-const routerCheckout = new Router();
+const routerCheckout = new Router()
 
-routerCheckout.get('/', auth, checkoutController.getCheckoutController);
+routerCheckout.get('/', auth, checkoutController.getCheckoutController)
 
-export default routerCheckout;
+export default routerCheckout

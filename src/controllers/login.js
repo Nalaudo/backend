@@ -1,22 +1,17 @@
-import loginService from '../services/login.js';
-import logger from '../config/logger.js';
+import loginService from '../services/login.js'
 
 class LoginController {
-    getLoginController = (req, res) => {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        const email = req.user?.email
-        loginService.loginCheck(req, res, email)
-    }
+  getLoginController = (req, res) => {
+    loginService.loginCheck(req)
+  }
 
-    postLoginController = (req, res) => {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        res.redirect('/profile')
-    }
+  postLoginController = (req, res) => {
+    res.redirect('/profile')
+  }
 
-    getFailLoginController = (req, res) => {
-        logger.info('Ruta: ' + req.originalUrl + ' - Método: ' + req.method)
-        res.render("pages/fail-login");
-    }
+  getFailLoginController = (req, res) => {
+    res.render('pages/fail-login')
+  }
 }
 
 const loginController = new LoginController()

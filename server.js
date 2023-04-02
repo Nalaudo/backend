@@ -1,3 +1,3 @@
-import expressServer from './app.js';
+import expressServer from './app.js'
 
 expressServer.listen()
