@@ -1,6 +1,6 @@
+import logoutController from '#controllers/logout.controller.js'
+import auth from '#middlewares/auth.middleware.js'
 import { Router } from 'express'
-import logoutController from '../controllers/logout.js'
-import auth from '../middleware/auth.js'
 
 const routerLogout = new Router()
 

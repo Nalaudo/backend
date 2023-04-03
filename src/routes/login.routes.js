@@ -1,7 +1,7 @@
+import loginController from '#controllers/login.controller.js'
+import auth from '#middlewares/auth.middleware.js'
+import passportAuth from '#middlewares/passportAuth.middleware.js'
 import { Router } from 'express'
-import loginController from '../controllers/login.js'
-import auth from '../middleware/auth.js'
-import passportAuth from '../middleware/passportAuth.js'
 
 const routerLogin = new Router()
 

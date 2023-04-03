@@ -1,6 +1,6 @@
-import mailer from '../utils/nodemailer.js'
-import CartFactory from '../database/DAOs/cartFactory.js'
 import { PERSISTENCE } from '#config/config.js'
+import CartFactory from '#database/DAOs/cartFactory.js'
+import mailer from '#utils/nodemailer.js'
 
 class CheckoutService {
   constructor () {

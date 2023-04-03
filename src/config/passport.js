@@ -1,8 +1,8 @@
-import bcrypt from 'bcryptjs'
-import { Strategy as LocalStrategy } from 'passport-local'
-import Users from '#database/models/users.js'
+import Users from '#database/models/users.model.js'
 import mailer from '#utils/nodemailer.js'
+import bcrypt from 'bcryptjs'
 import passport from 'passport'
+import { Strategy as LocalStrategy } from 'passport-local'
 
 const passportConfig = () => {
   function createHash (password) {

@@ -1,4 +1,4 @@
-import logoutService from '../services/logout.js'
+import logoutService from '#services/logout.service.js'
 
 class LogoutController {
   getLogoutController = (req, res) => {

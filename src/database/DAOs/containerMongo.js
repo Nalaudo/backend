@@ -1,6 +1,6 @@
-import Productucts from '../models/products.js'
-import Messages from '../models/messages.js'
-import Users from '../models/users.js'
+import Messages from '../models/messages.model.js'
+import Productucts from '../models/products.model.js'
+import Users from '../models/users.model.js'
 
 class ContainerMongo {
   constructor (coll) {
@@ -20,13 +20,16 @@ class ContainerMongo {
   async save (item) {
     if (this.coll === 'products') {
       const res = new Productucts(item)
-      await res.save()
+      const saved = await res.save()
+      return saved
     } else if (this.coll === 'messages') {
       const res = new Messages(item)
-      await res.save()
+      const saved = await res.save()
+      return saved
     } else if (this.coll === 'users') {
       const res = new Users(item)
-      await res.save()
+      const saved = await res.save()
+      return saved
     }
   }
 

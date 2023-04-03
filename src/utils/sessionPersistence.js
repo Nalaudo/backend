@@ -1,5 +1,5 @@
-import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import session from 'express-session'
 
 const sessionPersistence = (app) => {
   if (process.env.PERSISTENCE === 'mongo') {

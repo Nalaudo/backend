@@ -1,5 +1,5 @@
-import ContainerFactory from '../database/DAOs/containerFactory.js'
 import { PERSISTENCE } from '#config/config.js'
+import ContainerFactory from '#database/DAOs/containerFactory.js'
 
 class ProductsService {
   constructor () {
@@ -12,6 +12,10 @@ class ProductsService {
 
   getProduct = async (id) => {
     return await this.productsDao.getById(id)
+  }
+
+  postProduct = async (product) => {
+    return await this.productsDao.save(product)
   }
 
   putProduct = async (id) => {

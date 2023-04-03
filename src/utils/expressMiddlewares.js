@@ -1,9 +1,9 @@
-import sessionPersistence from './sessionPersistence.js'
+import compression from 'compression'
+import cors from 'cors'
+import passport from 'passport'
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import cors from 'cors'
-import compression from 'compression'
-import passport from 'passport'
+import sessionPersistence from './sessionPersistence.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 

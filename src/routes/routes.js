@@ -1,9 +1,9 @@
-import routerCart from './cart.js'
-import routerCheckout from './checkout.js'
-import routerLogin from './login.js'
-import routerLogout from './logout.js'
-import routerProduct from './products.js'
-import routerSignup from './signup.js'
+import routerCart from './cart.routes.js'
+import routerCheckout from './checkout.routes.js'
+import routerLogin from './login.routes.js'
+import routerLogout from './logout.routes.js'
+import routerProduct from './products.routes.js'
+import routerSignup from './signup.routes.js'
 
 const expressRoutes = (app) => {
   app.use('/cart', routerCart)

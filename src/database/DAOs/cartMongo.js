@@ -1,5 +1,5 @@
-import Productucts from '../models/products.js'
-import Users from '../models/users.js'
+import Productucts from '../models/products.model.js'
+import Users from '../models/users.model.js'
 
 class CartMongo {
   async updateCart (user, newProducts) {

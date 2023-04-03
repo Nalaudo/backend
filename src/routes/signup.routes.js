@@ -1,7 +1,7 @@
+import signupController from '#controllers/signup.controller.js'
+import passportAuth from '#middlewares/passportAuth.middleware.js'
+import upload from '#utils/multer.js'
 import { Router } from 'express'
-import signupController from '../controllers/signup.js'
-import passportAuth from '../middleware/passportAuth.js'
-import upload from '../utils/multer.js'
 
 const routerSignup = new Router()
 

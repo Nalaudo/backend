@@ -1,5 +1,5 @@
+import ContainerDAO from '#database/DAOs/containerFactory.js'
 import { normalize, schema } from 'normalizr'
-import ContainerDAO from '../database/DAOs/containerFactory.js'
 const products = ContainerDAO
 const msgs = ContainerDAO
 

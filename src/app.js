@@ -1,12 +1,12 @@
-import express from 'express'
-import http from 'http'
-import { Server as IoServer } from 'socket.io'
 import { PORT } from '#config/config.js'
 import passportConfig from '#config/passport.js'
 import expressRoutes from '#routes/routes.js'
 import expressMiddlewares from '#utils/expressMiddlewares.js'
 import connectMG from '#utils/mongoConnect.js'
 import socket from '#utils/socket.js'
+import express from 'express'
+import http from 'http'
+import { Server as IoServer } from 'socket.io'
 
 class ExpressServer {
   constructor () {

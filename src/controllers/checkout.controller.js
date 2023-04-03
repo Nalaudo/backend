@@ -1,4 +1,4 @@
-import checkoutService from '../services/checkout.js'
+import checkoutService from '#services/checkout.service.js'
 
 class CheckoutController {
   getCheckoutController = async (req, res) => {

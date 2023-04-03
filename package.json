@@ -5,7 +5,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha ./src/test/test.js",
+    "test:mongo": "mocha ./src/tests/products-test/test-mongo.js",
     "dev:mem": "set NODE_ENV=development&& set PERSISTENCE=mem&& nodemon server.js",
     "dev:mongo": "set NODE_ENV=development&& set PERSISTENCE=mongo&& nodemon server.js",
     "prod": "set NODE_ENV=production&& set PERSISTENCE=mongo&& nodemon server.js"
@@ -55,8 +55,8 @@
     "#config/*": {
       "default": "./src/config/*"
     },
-    "#middleware/*": {
-      "default": "./src/middleware/*"
+    "#middlewares/*": {
+      "default": "./src/middlewares/*"
     },
     "#routes/*": {
       "default": "./src/routes/*"
