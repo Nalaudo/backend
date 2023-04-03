@@ -22,7 +22,7 @@ const sessionPersistence = (app) => {
     )
   } else if (process.env.PERSISTENCE === 'mem') {
     return (
-      this.app.use(session({
+      app.use(session({
         secret: process.env.SECRET,
         resave: false,
         saveUninitialized: false,
