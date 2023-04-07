@@ -20,7 +20,8 @@ class ProductsController {
 
   putProductController = async (req, res) => {
     const { id } = req.params
-    const product = await productsService.putProduct(id)
+    const { title, description, features, thumbnail, category, price, stock } = req.body
+    const product = await productsService.putProduct(id, title, description, features, thumbnail, category, price, stock)
     res.json(product)
   }
 

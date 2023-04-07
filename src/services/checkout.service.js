@@ -1,10 +1,10 @@
-import { PERSISTENCE } from '#config/config.js'
+import config from '#config/config.js'
 import CartFactory from '#database/DAOs/cartFactory.js'
 import mailer from '#utils/nodemailer.js'
 
 class CheckoutService {
   constructor () {
-    this.checkoutDao = CartFactory.get(PERSISTENCE)
+    this.checkoutDao = CartFactory.get(config.persistence)
   }
 
   sendWspAndEmail = async (user, cart) => {

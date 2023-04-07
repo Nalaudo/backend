@@ -2,16 +2,20 @@ import signupService from '#services/signup.service.js'
 
 class SignupController {
   getSignupController = (req, res) => {
-    const email = req.user?.email
-    signupService.signupCheck(req, res, email)
+    const alreadyAuth = signupService.signupCheck(req)
+    if (alreadyAuth?.error) {
+      res.json(alreadyAuth)
+    } else {
+      res.render('pages/signup')
+    }
   }
 
   getFailSignupController = (req, res) => {
-    res.render('pages/fail-signup')
+    res.json({ error: 'Already exists an account for your email' })
   }
 
   postSignupController = (req, res) => {
-    res.redirect('/profile')
+    res.json({ success: 'Signup success' })
   }
 }
 

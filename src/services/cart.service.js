@@ -1,9 +1,9 @@
-import { PERSISTENCE } from '#config/config.js'
+import config from '#config/config.js'
 import CartFactory from '#database/DAOs/cartFactory.js'
 
 class CartService {
   constructor () {
-    this.cartDao = CartFactory.get(PERSISTENCE)
+    this.cartDao = CartFactory.get(config.persistence)
   }
 
   deleteCart = async (user) => {

@@ -1,24 +1,22 @@
 import cartService from '#services/cart.service.js'
 
 class CartController {
-  getCartControllerDelete = async (req, res) => {
+  deleteCartController = async (req, res) => {
     const user = req.user
     await cartService.deleteCart(user)
-    res.redirect('/cart')
+    res.status(200).json({ success: 'Cart deleted' })
   }
 
-  getCartControllerPut = async (req, res) => {
+  putCartController = async (req, res) => {
     const user = req.user
     const id = req.params.id
     await cartService.findProductUpdateCart(id, user)
-    res.redirect('/cart')
+    res.status(200).json({ success: 'Cart updated' })
   }
 
   getCartController = async (req, res) => {
-    const user = req.user
-    const email = req.user?.email
-    const userCart = user.cart
-    res.render('pages/cart.ejs', { email, userCart })
+    const userCart = req.user.cart
+    res.status(200).json(userCart)
   }
 }
 

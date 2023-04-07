@@ -1,7 +1,6 @@
+import session from 'express-session'
 import CryptoJS from 'crypto-js'
 import config from '#config/config.js'
-import sessionMem from './sessionMem.js'
-import sessionMongo from './sessionMongo.js'
 
 config.secret = generateSecretKey()
 
@@ -13,12 +12,17 @@ function generateSecretKey () {
   return CryptoJS.lib.WordArray.random(32).toString()
 }
 
-const sessionPersistence = (app) => {
-  if (config.persistence === 'mongo') {
-    return sessionMem(app)
-  } else {
-    return sessionMongo(app)
-  }
+const sessionMem = (app) => {
+  return (
+    app.use(session({
+      secret: config.secret,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 600000
+      }
+    }))
+  )
 }
 
-export default sessionPersistence
+export default sessionMem

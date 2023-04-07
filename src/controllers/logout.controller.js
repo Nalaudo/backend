@@ -1,8 +1,8 @@
 import logoutService from '#services/logout.service.js'
 
 class LogoutController {
-  getLogoutController = (req, res) => {
-    res.json(logoutService.logoutReq(req))
+  getLogoutController = (req, res, next) => {
+    logoutService.logoutReq(req, res, next)
   }
 }
 

@@ -7,9 +7,9 @@ const request = supertest('http://localhost:8080')
 
 describe('Test all products endpoints.', () => {
   const generateProduct = () => {
-    const categories = ['organic', 'inorganic', 'electronic']
+    const categories = ['amigurumis', 'hogar', 'accesorios']
     const categoryPicker = categories[Math.floor(Math.random() * categories.length)]
-    const object = { title: faker.commerce.product(), price: Number(faker.commerce.price(1, 1000, 0)), thumbnail: faker.image.abstract(), category: categoryPicker }
+    const object = { title: faker.commerce.product(), description: faker.lorem.paragraph(), features: faker.lorem.paragraph(), category: categoryPicker, thumbnail: faker.image.abstract(), price: Number(faker.commerce.price(1, 1000, 0)), stock: Number(faker.commerce.price(1, 1000, 0)) }
     return object
   }
 
@@ -20,12 +20,15 @@ describe('Test all products endpoints.', () => {
       const res = await request.post('/api/products').send(post)
       expect(res.status).to.eql(200)
       expect(res.body).to.be.a('object')
-      expect(res.body).to.include.keys('title', 'price', 'thumbnail', 'category', '_id', '__v')
-      post._id = res.body._id
+      expect(res.body).to.include.keys('title', 'description', 'features', 'thumbnail', 'category', 'price', 'stock', 'id')
+      post.id = res.body.id
       expect(post.title).to.eql(res.body.title)
-      expect(post.price).to.eql(res.body.price)
-      expect(post.thumbnail).to.eql(res.body.thumbnail)
+      expect(post.description).to.eql(res.body.description)
+      expect(post.features).to.eql(res.body.features)
       expect(post.category).to.eql(res.body.category)
+      expect(post.thumbnail).to.eql(res.body.thumbnail)
+      expect(post.price).to.eql(res.body.price)
+      expect(post.stock).to.eql(res.body.stock)
     })
   })
   describe('GET ALL', () => {
@@ -37,14 +40,14 @@ describe('Test all products endpoints.', () => {
   })
   describe('GET ONE', () => {
     it('Should res 200 and be an object', async () => {
-      const res = await request.get(`/api/products/${post._id}`)
+      const res = await request.get(`/api/products/${post.id}`)
       expect(res.status).to.eql(200)
       expect(res.body).to.be.a('object')
     })
   })
   describe('DEL ONE', function () {
     it('Should res 200', async () => {
-      const res = await request.del(`/api/products/${post._id}`)
+      const res = await request.del(`/api/products/${post.id}`)
       expect(res.status).to.eql(200)
     })
   })

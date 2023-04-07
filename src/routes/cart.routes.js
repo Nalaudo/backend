@@ -4,8 +4,8 @@ import { Router } from 'express'
 
 const routerCart = new Router()
 
-routerCart.get('/del', auth, cartController.getCartControllerDelete)
-routerCart.get('/:id', auth, cartController.getCartControllerPut)
+routerCart.delete('/:id', auth, cartController.deleteCartController)
+routerCart.put('/:id', auth, cartController.putCartController)
 routerCart.get('/', auth, cartController.getCartController)
 
 export default routerCart

@@ -1,9 +1,7 @@
 class SignupService {
-  signupCheck = (req, res, email) => {
+  signupCheck = (req) => {
     if (req.isAuthenticated()) {
-      res.redirect('/profile')
-    } else {
-      res.render('pages/signup', { email })
+      return { error: 'Already logged in, you have an account' }
     }
   }
 }

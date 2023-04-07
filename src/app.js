@@ -1,4 +1,4 @@
-import { PORT } from '#config/config.js'
+import config from '#config/config.js'
 import passportConfig from '#config/passport.js'
 import expressRoutes from '#routes/routes.js'
 import expressMiddlewares from '#utils/expressMiddlewares.js'
@@ -41,7 +41,7 @@ class ExpressServer {
     this.passport()
     this.socket()
     this.routes()
-    this.server.listen(PORT)
+    this.server.listen(config.port)
   }
 }
 

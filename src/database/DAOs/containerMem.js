@@ -23,7 +23,9 @@ class ContainerMem {
       return item
     }
     if (this.coll === 'products') {
-      return this.products.push(id(this.products, item))
+      const newProd = id(this.products, item)
+      this.products.push(newProd)
+      return newProd
     } else if (this.coll === 'messages') {
       return this.messages.push(id(this.messages, item))
     } else if (this.coll === 'users') {
@@ -33,38 +35,24 @@ class ContainerMem {
 
   getById (id) {
     if (this.coll === 'products') {
-      return this.products.find(({ product }) => product.id === id)
+      return this.products.find(product => product.id === Number(id))
     } else if (this.coll === 'messages') {
-      return this.messages.find(({ msg }) => msg.id === id)
+      return this.messages.find(msg => msg.id === Number(id))
     }
   }
 
-  getByTitle (title) {
-    return this.products.find(({ product }) => product.title === title)
-  }
-
   getByCategory (category) {
-    return this.products.find(({ product }) => product.category === category)
-  }
-
-  getByEmail (email) {
-    return this.users.find(({ user }) => user.email === email)
+    return this.products.find(product => product.category === category)
   }
 
   deleteById (id) {
-    try {
-      const filtered = async () => {
-        const arr = this.getAll()
-        return arr.filter((e) => e.id !== id)
-      }
-      if (this.coll === 'products') {
-        this.products.push(filtered())
-      } else if (this.coll === 'messages') {
-        this.messages.push(filtered())
-      } else if (this.coll === 'users') {
-        this.users.push(filtered())
-      }
-    } catch (e) {
+    const filteredArray = this.products.filter(product => product.id !== Number(id))
+    if (this.coll === 'products') {
+      this.products = filteredArray
+    } else if (this.coll === 'messages') {
+      this.messages = filteredArray
+    } else if (this.coll === 'users') {
+      this.users = filteredArray
     }
   }
 
@@ -78,16 +66,19 @@ class ContainerMem {
     }
   }
 
-  updateById (id, title, price, thumbnail) {
-    const products = this.getAll()
-    const item = products.find((product) => product.id === id)
+  updateById (id, title, description, features, thumbnail, category, price, stock) {
+    const item = this.products.find((product) => product.id === Number(id))
     if (item) {
       item.title = title
-      item.price = price
+      item.description = description
+      item.features = features
       item.thumbnail = thumbnail
-      this.products.push(item)
+      item.category = category
+      item.price = price
+      item.stock = stock
+      return this.products
     } else {
-      return { error: 'Productucto no encontrado' }
+      return { error: 'Producto no encontrado' }
     }
   }
 }

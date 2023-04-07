@@ -1,8 +1,8 @@
 class LogoutService {
-  logoutReq = (req) => {
+  logoutReq = (req, res, next) => {
     req.logout(function (err) {
-      if (err) return { error: 'Logout error' }
-      else return { success: 'Successfully logged out' }
+      if (err) { return next(err) }
+      res.json({ success: 'Logged out' })
     })
   }
 }

@@ -5,7 +5,7 @@ import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import sessionPersistence from './sessionPersistence.js'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+const __dirname = dirname(dirname(dirname(fileURLToPath(import.meta.url))))
 
 const expressMiddlewares = (app, express) => {
   app.use(cors())
@@ -13,6 +13,7 @@ const expressMiddlewares = (app, express) => {
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
   app.use('/public', express.static(__dirname + '/public'))
+  app.set('view engine', 'ejs')
   sessionPersistence(app)
   app.use(passport.initialize())
   app.use(passport.session())
