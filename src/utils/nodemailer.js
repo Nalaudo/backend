@@ -22,13 +22,13 @@ const mailer = (user, data, to) => {
     TO = signupMail
   } else if (to === 'checkoutMail') {
     const arr = []
-    data.forEach(element => { arr.push(`<tr><td style='border: 1px solid black'>${element.title}</td><td style='border: 1px solid black'>${element.price}</td><td style='border: 1px solid black'><img style="height: 100px" src="${element.thumbnail}" alt="" /></td></tr>`) })
+    data.forEach(element => { arr.push(`<tr><td style='border: 1px solid black'>${element.title}</td><td style='border: 1px solid black'>${element.price}</td><td style='border: 1px solid black'><img style="height: 100px" src="${element.thumbnail}" alt="" /></td><td style='border: 1px solid black'>${element.quantity}</td></tr>`) })
     const products = arr.join()
     const checkoutMail = {
       from: 'Servidor Node.js',
       to: ADMIN_MAIL,
       subject: 'Checkout aprobado',
-      html: `<h1>Nuevo pedido de ${user.nombre}, email: ${user.email}</h1><table style='border: 1px solid black'><tr><th style='border: 1px solid black'>Título</th><th style='border: 1px solid black'>Precio</th><th style='border: 1px solid black'>Imagen</th></tr>${products.replace(/,/g, '')}</table>`
+      html: `<h1>Nuevo pedido de ${user.nombre}, email: ${user.email}</h1><table style='border: 1px solid black'><tr><th style='border: 1px solid black'>Título</th><th style='border: 1px solid black'>Precio</th><th style='border: 1px solid black'>Imagen</th><th style='border: 1px solid black'>Cantidad</th></tr>${products.replace(/,/g, '')}</table>`
     }
     TO = checkoutMail
   }
