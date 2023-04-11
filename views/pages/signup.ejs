@@ -9,6 +9,7 @@
     <title>Registrarse</title>
   </head>
   <body style="margin: 0px">
+    <%- include('../partials/navbar', { email: user?.email }); %>
     <form action="/signup" method="post" enctype="multipart/form-data" onsubmit="process(event)">
       <div class="container">
         <h1>Registrarse</h1>
@@ -261,5 +262,6 @@
         <p>¿Ya tenés una cuenta? <a href="/login">Ingresar</a>.</p>
       </div>
     </form>
+    <%- include('../partials/footer'); %>
   </body>
 </html>

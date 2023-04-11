@@ -3,10 +3,11 @@ import signupService from '#services/signup.service.js'
 class SignupController {
   getSignupController = (req, res) => {
     const alreadyAuth = signupService.signupCheck(req)
+    const user = req?.user
     if (alreadyAuth?.error) {
       res.json(alreadyAuth)
     } else {
-      res.render('pages/signup')
+      res.render('pages/signup', { user })
     }
   }
 
@@ -15,7 +16,7 @@ class SignupController {
   }
 
   postSignupController = (req, res) => {
-    res.json({ success: 'Signup success' })
+    res.redirect('/profile')
   }
 }
 

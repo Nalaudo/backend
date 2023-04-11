@@ -7,7 +7,7 @@ class CheckoutService {
     this.checkoutDao = CartFactory.get(config.persistence)
   }
 
-  sendWspAndEmail = async (user, cart) => {
+  sendEmail = async (user, cart) => {
     mailer(user, cart, 'checkoutMail')
     await this.checkoutDao.deleteCart(user)
   }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+  </head>
+  <body style="margin: 0px">
+    <%- include('../partials/navbar', { email: user?.email }); %>
+    <main>
+      <div>
+        <h1 style="color: blue">Tu perfil:</h1>
+        <ul>
+          <li>Email: <%= user.email %></li>
+          <li>Nombre: <%= user.nombre %></li>
+          <li>Dirección: <%= user.direccion %></li>
+          <li>Edad: <%= user.edad %></li>
+          <li>Teléfono: <%= user.telefono %></li>
+        </ul>
+      </div>
+      <img style="height: 100px" src="<%= user.avatar.path %>" alt="Avatar" />
+      <button><a href="/support">Contactar con el soporte</a></button>
+    </main>
+    <%- include('../partials/footer'); %>
+  </body>
+</html>

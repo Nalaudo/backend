@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
   edad: { type: Number, required: true },
   telefono: { type: String, required: true },
   avatar: { type: Object, required: false },
-  cart: { type: Array, required: false }
+  cart: { type: Array, required: false },
+  isAdmin: { type: Boolean, default: false, required: false }
 })
 
 const Users = mongoose.model('users', UserSchema)

@@ -10,6 +10,10 @@ class CartService {
     return await this.cartDao.deleteCart(user)
   }
 
+  deleteCartProd = async (user, id) => {
+    return await this.cartDao.deleteCartProd(user, id)
+  }
+
   findProductUpdateCart = async (id, user) => {
     const product = await this.cartDao.findProductById(id)
     return await this.cartDao.updateCart(user, product)

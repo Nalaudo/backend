@@ -14,6 +14,10 @@ class ProductsService {
     return await this.productsDao.getById(id)
   }
 
+  getCategory = async (category) => {
+    return await this.productsDao.getByCategory(category)
+  }
+
   postProduct = async (product) => {
     return await this.productsDao.save(product)
   }

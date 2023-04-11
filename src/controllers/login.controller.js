@@ -3,19 +3,20 @@ import loginService from '#services/login.service.js'
 class LoginController {
   getLoginController = (req, res) => {
     const alreadyAuth = loginService.loginCheck(req)
+    const user = req?.user
     if (alreadyAuth?.error) {
-      res.status(200).json(alreadyAuth)
+      res.redirect('/profile')
     } else {
-      res.render('pages/login')
+      res.status(200).render('pages/login', { user })
     }
   }
 
   postLoginController = (req, res) => {
-    res.status(200).json({ success: 'Login success' })
+    res.redirect('/profile')
   }
 
   getFailLoginController = (req, res) => {
-    res.status(400).json({ error: 'Login error' })
+    res.status(401).json({ error: 'Login error' })
   }
 }
 

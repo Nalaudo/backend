@@ -2,14 +2,22 @@ import productsService from '#services/products.service.js'
 
 class ProductsController {
   getAllProductsController = async (req, res) => {
+    const user = req.user
     const products = await productsService.getAllProducts()
-    res.json(products)
+    res.render('pages/products', { products, user })
   }
 
   getProductController = async (req, res) => {
     const { id } = req.params
     const product = await productsService.getProduct(id)
     res.json(product)
+  }
+
+  getCategoryController = async (req, res) => {
+    const user = req.user
+    const { category } = req.params
+    const products = await productsService.getCategory(category)
+    res.render('pages/products', { products, user })
   }
 
   postProductController = async (req, res) => {

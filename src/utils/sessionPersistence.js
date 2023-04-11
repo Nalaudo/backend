@@ -15,9 +15,9 @@ function generateSecretKey () {
 
 const sessionPersistence = (app) => {
   if (config.persistence === 'mongo') {
-    return sessionMem(app)
-  } else {
     return sessionMongo(app)
+  } else {
+    return sessionMem(app)
   }
 }
 

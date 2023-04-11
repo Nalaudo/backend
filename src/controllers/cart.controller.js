@@ -4,19 +4,26 @@ class CartController {
   deleteCartController = async (req, res) => {
     const user = req.user
     await cartService.deleteCart(user)
-    res.status(200).json({ success: 'Cart deleted' })
+    res.redirect('/cart')
   }
 
-  putCartController = async (req, res) => {
+  deleteCartProdController = async (req, res) => {
+    const user = req.user
+    const id = req.params.id
+    await cartService.deleteCartProd(user, id)
+    res.redirect('/cart')
+  }
+
+  addToCartController = async (req, res) => {
     const user = req.user
     const id = req.params.id
     await cartService.findProductUpdateCart(id, user)
-    res.status(200).json({ success: 'Cart updated' })
+    res.redirect('/cart')
   }
 
   getCartController = async (req, res) => {
-    const userCart = req.user.cart
-    res.status(200).json(userCart)
+    const user = req.user
+    res.render('pages/cart', { user })
   }
 }
 

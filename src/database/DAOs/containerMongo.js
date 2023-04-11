@@ -42,7 +42,7 @@ class ContainerMongo {
   }
 
   async getByCategory (category) {
-    return await Productucts.findOne({ category }).exec()
+    return await Productucts.find({ category }).exec()
   }
 
   async deleteById (id) {

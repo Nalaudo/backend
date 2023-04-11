@@ -7,7 +7,7 @@ const request = supertest('http://localhost:8080')
 
 describe('Test all products endpoints.', () => {
   const generateProduct = () => {
-    const categories = ['amigurumis', 'hogar', 'accesorios']
+    const categories = ['organics', 'inorganics']
     const categoryPicker = categories[Math.floor(Math.random() * categories.length)]
     const object = { title: faker.commerce.product(), description: faker.lorem.paragraph(), features: faker.lorem.paragraph(), category: categoryPicker, thumbnail: faker.image.abstract(), price: Number(faker.commerce.price(1, 1000, 0)), stock: Number(faker.commerce.price(1, 1000, 0)) }
     return object

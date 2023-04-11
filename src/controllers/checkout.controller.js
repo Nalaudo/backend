@@ -5,7 +5,7 @@ class CheckoutController {
     const user = req?.user
     const email = req.user?.email
     const cart = req.user?.cart
-    await checkoutService.sendWspAndEmail(user, cart)
+    await checkoutService.sendEmail(user, cart)
     res.render('pages/checkout.ejs', { email })
   }
 }

@@ -8,6 +8,7 @@
     <title>Login</title>
   </head>
   <body style="margin: 0px">
+    <%- include('../partials/navbar', { email: user?.email }); %>
     <form action="/login" method="post">
       <div class="container">
         <label for="email"><b>Email</b></label>
@@ -18,5 +19,6 @@
         <p>¿No tenés una cuenta? <a href="/signup">Registrate</a>.</p>
       </div>
     </form>
+    <%- include('../partials/footer'); %>
   </body>
 </html>

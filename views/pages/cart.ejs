@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carrito</title>
+    <style>
+      table,
+      th,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body style="margin: 0px">
+    <%- include('../partials/navbar', {email: user.email}); %> <%if (user.cart.length > 0) { %>
+    <h1>Carrito</h1>
+    <table style="margin: 10px">
+      <tr>
+        <th>Título</th>
+        <th>Precio</th>
+        <th>Imagen</th>
+        <th>Cantidad</th>
+      </tr>
+      <% user.cart.forEach(element => { %>
+      <tr>
+        <td><%= element.title %></td>
+        <td>$<%= element.price %></td>
+        <td>
+          <img style="height: 100px" src="<%= element.thumbnail %>" alt="" />
+        </td>
+        <td><%= element.quantity %></td>
+        <td>
+          <a href="/cart/delete/<%= element._id %>">
+            <img style="height: 30px; margin: 10px" src="http://localhost:8080/public/assets/delete.png" alt="Vaciar carrito" />
+          </a>
+        </td>
+      </tr>
+      <% }) %>
+    </table>
+    <a href="/cart/delete">
+      <img style="height: 30px; margin: 10px" src="http://localhost:8080/public/assets/delete.png" alt="Vaciar carrito" />
+    </a>
+    <form style="margin: 10px" action="/checkout" method="get">
+      <button type="submit">CheckOut</button>
+    </form>
+    <% } else { %>
+    <h1>Carrito vacío</h1>
+    <% } %> <%- include('../partials/footer'); %>
+  </body>
+</html>
