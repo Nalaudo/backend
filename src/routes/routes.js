@@ -6,6 +6,7 @@ import routerProduct from './products.routes.js'
 import routerProfile from './profile.routes.js'
 import routerRoot from './root.routes.js'
 import routerSignup from './signup.routes.js'
+import routerSupport from './support.routes.js'
 
 const expressRoutes = (app) => {
   app.use('/', routerRoot)
@@ -16,6 +17,7 @@ const expressRoutes = (app) => {
   app.use('/logout', routerLogout)
   app.use('/api/products', routerProduct)
   app.use('/signup', routerSignup)
+  app.use('/support', routerSupport)
 }
 
 export default expressRoutes
