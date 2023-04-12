@@ -1,7 +1,7 @@
-import MongoStore from 'connect-mongo'
-import session from 'express-session'
-import CryptoJS from 'crypto-js'
 import config from '#config/config.js'
+import MongoStore from 'connect-mongo'
+import CryptoJS from 'crypto-js'
+import session from 'express-session'
 
 config.secret = generateSecretKey()
 

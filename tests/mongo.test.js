@@ -31,30 +31,30 @@ describe('Test all products endpoints.', () => {
       expect(post.stock).to.eql(res.body.stock)
     })
   })
-  // describe('GET ALL', () => {
-  //   it('Should res 200 and be an array', async () => {
-  //     const res = await request.get('/api/products')
-  //     expect(res.status).to.eql(200)
-  //     expect(res.body).to.be.a('array')
-  //   })
-  // })
-  // describe('GET ONE', () => {
-  //   it('Should res 200 and be an object', async () => {
-  //     const res = await request.get(`/api/products/${post._id}`)
-  //     expect(res.status).to.eql(200)
-  //     expect(res.body).to.be.a('object')
-  //   })
-  // })
-  // describe('DEL ONE', function () {
-  //   it('Should res 200', async () => {
-  //     const res = await request.del(`/api/products/${post._id}`)
-  //     expect(res.status).to.eql(200)
-  //   })
-  // })
-  // describe('DEL ALL', function () {
-  //   it('Should res 200', async () => {
-  //     const res = await request.del('/api/products')
-  //     expect(res.status).to.eql(200)
-  //   })
-  // })
+  describe('GET ALL', () => {
+    it('Should res 200 and be an array', async () => {
+      const res = await request.get('/api/products')
+      expect(res.status).to.eql(200)
+      expect(res.body).to.be.a('array')
+    })
+  })
+  describe('GET ONE', () => {
+    it('Should res 200 and be an object', async () => {
+      const res = await request.get(`/api/products/${post._id}`)
+      expect(res.status).to.eql(200)
+      expect(res.body).to.be.a('object')
+    })
+  })
+  describe('DEL ONE', function () {
+    it('Should res 200', async () => {
+      const res = await request.del(`/api/products/${post._id}`)
+      expect(res.status).to.eql(200)
+    })
+  })
+  describe('DEL ALL', function () {
+    it('Should res 200', async () => {
+      const res = await request.del('/api/products')
+      expect(res.status).to.eql(200)
+    })
+  })
 })

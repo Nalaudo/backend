@@ -1,6 +1,6 @@
-import session from 'express-session'
-import CryptoJS from 'crypto-js'
 import config from '#config/config.js'
+import CryptoJS from 'crypto-js'
+import session from 'express-session'
 
 config.secret = generateSecretKey()
 
