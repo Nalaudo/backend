@@ -9,7 +9,7 @@ describe('Test all products endpoints.', () => {
   const generateProduct = () => {
     const categories = ['organics', 'inorganics']
     const categoryPicker = categories[Math.floor(Math.random() * categories.length)]
-    const object = { title: faker.commerce.product(), description: faker.lorem.paragraph(), features: faker.lorem.paragraph(), category: categoryPicker, thumbnail: faker.image.abstract(), price: Number(faker.commerce.price(1, 1000, 0)), stock: Number(faker.commerce.price(1, 1000, 0)) }
+    const object = { title: faker.commerce.product(), description: faker.lorem.paragraph(), category: categoryPicker, thumbnail: faker.image.abstract(), price: Number(faker.commerce.price(1, 1000, 0)) }
     return object
   }
 
@@ -20,7 +20,7 @@ describe('Test all products endpoints.', () => {
       const res = await request.post('/api/products').send(post)
       expect(res.status).to.eql(200)
       expect(res.body).to.be.a('object')
-      expect(res.body).to.include.keys('title', 'description', 'features', 'thumbnail', 'category', 'price', 'stock', '_id')
+      expect(res.body).to.include.keys('title', 'description', 'thumbnail', 'category', 'price', '_id')
       post._id = res.body._id
       expect(post.title).to.eql(res.body.title)
       expect(post.description).to.eql(res.body.description)
