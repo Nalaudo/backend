@@ -33,14 +33,14 @@
         <td><%= element.quantity %></td>
         <td>
           <a href="/cart/delete/<%= element._id %>">
-            <img style="height: 30px; margin: 10px" src="http://localhost:8080/public/assets/delete.png" alt="Vaciar carrito" />
+            <img style="height: 30px; margin: 10px" src="public/assets/delete.png" alt="Vaciar carrito" />
           </a>
         </td>
       </tr>
       <% }) %>
     </table>
     <a href="/cart/delete">
-      <img style="height: 30px; margin: 10px" src="http://localhost:8080/public/assets/delete.png" alt="Vaciar carrito" />
+      <img style="height: 30px; margin: 10px" src="public/assets/delete.png" alt="Vaciar carrito" />
     </a>
     <form style="margin: 10px" action="/checkout" method="get">
       <button type="submit">CheckOut</button>
