@@ -6,10 +6,10 @@ const devConfig = {
   node_env: process.env.NODE_ENV,
   port: 8080,
   persistence: process.env.PERSISTENCE,
-  mongo_connection: 'mongodb+srv://Backend:Backend@backend.ep2dbvq.mongodb.net/dev',
+  mongo_connection: process.env.MONGO_CONNECTION_DEV,
   secret: process.env.SESSION_SECRET,
   nodemailer_pass: process.env.NODEMAILER_PASS,
-  nodemailer_admin: 'biconalaudo@gmail.com'
+  nodemailer_admin: process.env.NODEMAILER_ADMIN
 }
 
 const prodConfig = {
